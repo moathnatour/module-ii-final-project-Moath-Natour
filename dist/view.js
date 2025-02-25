@@ -57,41 +57,6 @@ export function init(addMealButton, formDisplay, displayCancel, options) {
             displayFoodItems();
         });
     });
-    // displayFoodItems();
-    // function checkForCheckedCategories(){
-    //     let categoriesToShow : string[] = [];
-    //     categories.forEach(c=>{
-    //         if(c.checked){
-    // categoriesToShow.push(c.name)
-    //         }
-    //         if(!c.checked){
-    // categoriesToShow = categoriesToShow.filter(categoryName =>{
-    //     return c.name !== categoryName
-    // })
-    //         }
-    //     })
-    //     return categoriesToShow;
-    // }
-    // displayCheckedCategories();
-    // categories.forEach(c=>{
-    //     c.addEventListener('change', function(e){
-    //         const category = e.target as HTMLInputElement
-    //         if(category.checked){
-    //         const foodItemsToShow = getFoodItemsByCategory(category.name);
-    //         const options = document.getElementById('options');
-    //         options.innerHTML = "";
-    //         for(const foodItem of foodItemsToShow){
-    //             const foodItemToShow = document.createElement('option');
-    //             foodItemToShow.innerHTML = foodItem;
-    //             foodItemToShow.value = foodItem;
-    //             options.appendChild(foodItemToShow);
-    //         } 
-    //     }
-    //     else {
-    //         displayFoodItems();
-    //     }
-    //     })
-    // })
     document.addEventListener('click', function (e) {
         formDisplay.style.display = "none";
         foodItemDisplay.innerHTML = "";
