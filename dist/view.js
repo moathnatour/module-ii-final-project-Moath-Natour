@@ -1,6 +1,20 @@
 import { onAddMeal, getFoodItemsFromDatabase, getFoodItemsByCategory } from "./controller.js";
-export function init(addMealButton, formDisplay, displayCancel, options) {
+import { monthlyLog, getCaloriesPerDay } from "./model.js";
+export function init(addMealButton, formDisplay, displayCancel, options, monthlyCaloriesChart) {
     const { onAddFoodItemToMeal, onRemoveFoodItemFromMeal, onAdd, getFoodItemName, getFoodItemWeight, resetFoodItemsToAddToMealList } = onAddMeal();
+    console.log(monthlyLog);
+    renderCalorieTrackerChart();
+    function renderCalorieTrackerChart() {
+        monthlyCaloriesChart.innerHTML = "";
+        for (const day of monthlyLog) {
+            const calories = getCaloriesPerDay(day);
+            const height = (calories / 5000) * 100;
+            const newDiv = document.createElement('div');
+            newDiv.classList.add('day');
+            newDiv.style.height = `${height}%`;
+            monthlyCaloriesChart.appendChild(newDiv);
+        }
+    }
     addMealButton.addEventListener('click', function (e) {
         e.preventDefault();
         e.stopPropagation();
@@ -98,5 +112,12 @@ export function init(addMealButton, formDisplay, displayCancel, options) {
         const formData = new FormData(mealForm);
         onAdd(formData);
         foodItemDisplay.innerHTML = "";
+        renderCalorieTrackerChart();
+        console.log(monthlyLog);
+    });
+    const dateButton = document.getElementById('date-button');
+    const logMealDate = document.getElementById('log-meal-date');
+    dateButton.addEventListener("click", function (e) {
+        logMealDate.classList.toggle('hidden');
     });
 }

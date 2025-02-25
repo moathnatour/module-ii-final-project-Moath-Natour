@@ -1,7 +1,53 @@
-export let meals = [];
+export let monthlyLog = [];
+// monthlyLog = getMonthlyLogFromLocalStorage();
+monthlyLog = getMonthlyLogFromLocalStorage();
+export function constructMonthlyLog() {
+    let monthlyLog = [];
+    const today = new Date();
+    const currentYear = today.getFullYear();
+    const currentMonth = today.getMonth();
+    const daysInCurrentMonth = getDaysInAMonth(currentYear, currentMonth);
+    function getDaysInAMonth(year, month) {
+        return new Date(year, month + 1, 0).getDate();
+    }
+    for (let i = 1; i <= daysInCurrentMonth; i++) {
+        const meals = [];
+        const id = crypto.randomUUID().replaceAll("-", " ").slice(-9);
+        const date = new Date(currentYear, currentMonth, i);
+        const newDay = {
+            date,
+            id,
+            meals,
+        };
+        monthlyLog.push(newDay);
+    }
+    return monthlyLog;
+}
+export function getCaloriesPerDay(day) {
+    let totalCalories = 0;
+    day.meals.forEach(m => {
+        const caloriesToAdd = getCaloriesByMeal(m);
+        if (typeof caloriesToAdd !== "string") {
+            totalCalories += caloriesToAdd;
+        }
+    });
+    return totalCalories;
+}
 export let foodItemsToAddToMeal = [];
 export function addMeal(meal) {
-    meals.push(meal);
+    const mealDate = meal.date;
+    try {
+        const day = monthlyLog.find(d => {
+            return d.date.getDate() === mealDate.getDate();
+        });
+        if (day) {
+            day.meals.push(meal);
+            saveMonthlyLogToLocalStorage();
+        }
+    }
+    catch (error) {
+        console.log(error);
+    }
 }
 export function searchFoodItemByName(name) {
     const foodItem = foodDatabase.find(foodItem => (foodItem.name.toLocaleLowerCase() === name.toLocaleLowerCase()));
@@ -308,61 +354,24 @@ export const foodDatabase = [
         fat: 100
     }
 ];
-// const newMeal : meal  = {
-//     name : "myMeal",
-//     id : "hello",
-//     content : [{
-//         name: "Coconut oil",
-//         category: "Fat",
-//         caloriesPer100g: 892,
-//         protein: 0,
-//         carbs: 0,
-//         fat: 100,
-//         weight : 100,
-//       },
-//       {
-//         name: "Potato",
-//         category: "Carbohydrate",
-//         caloriesPer100g: 77,
-//         protein: 2,
-//         carbs: 17.5,
-//         fat: 0.1,
-//         weight : 100,
-//       },
-//       {
-//         name: "Oats",
-//         category: "Carbohydrate",
-//         caloriesPer100g: 389,
-//         protein: 16.9,
-//         carbs: 66.3,
-//         fat: 6.9,
-//         weight : 100,
-//       }
-//     ]
-// }
-// console.log(getCaloriesByMeal(newMeal));
-// [{
-//     name: "Coconut oil",
-//     category: "Fat",
-//     caloriesPer100g: 892,
-//     protein: 0,
-//     carbs: 0,
-//     fat: 100
-//   },
-//   {
-//     name: "Potato",
-//     category: "Carbohydrate",
-//     caloriesPer100g: 77,
-//     protein: 2,
-//     carbs: 17.5,
-//     fat: 0.1
-//   },
-//   {
-//     name: "Oats",
-//     category: "Carbohydrate",
-//     caloriesPer100g: 389,
-//     protein: 16.9,
-//     carbs: 66.3,
-//     fat: 6.9
-//   }
-// ]
+function saveMonthlyLogToLocalStorage() {
+    localStorage.setItem('monthlyLog', JSON.stringify(monthlyLog));
+}
+function getMonthlyLogFromLocalStorage() {
+    const logJSON = localStorage.getItem('monthlyLog');
+    let monthlyLog = JSON.parse(logJSON);
+    // console.log(monthlyLog);
+    if (Array.isArray(monthlyLog)) {
+        monthlyLog.map(day => ({
+            ...day,
+            date: new Date(day.date),
+            meals: day.meals.map((meal) => ({
+                ...meal,
+                date: new Date(meal.date),
+            })),
+        }));
+    }
+    else
+        monthlyLog = constructMonthlyLog();
+    return monthlyLog;
+}

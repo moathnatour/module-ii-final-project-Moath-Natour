@@ -1,4 +1,4 @@
-import {searchFoodItemByName, addMeal , foodItem, meals, foodDatabase} from "./model.js"
+import {searchFoodItemByName, addMeal , foodItem, foodDatabase} from "./model.js"
 
 
 
@@ -54,7 +54,9 @@ function onAdd(formData : FormData){
 console.log(foodItemsToAddToMeal);
   const name = formData.get('name') as string;
     const id = crypto.randomUUID().replaceAll("-", " ").slice(-8);
-    const date = new Date();
+    const rawDate = formData.get('date') as string
+    let date = new Date(rawDate);
+    date = isNaN(date.getTime()) ? new Date() :  date ;
     date.setHours(0, 0, 0, 0);
     const content : foodItem[] = foodItemsToAddToMeal;
    
@@ -65,7 +67,7 @@ console.log(foodItemsToAddToMeal);
     date,
     content,
   });
-console.log(meals);
+
 foodItemsToAddToMeal = [];
 }
 
@@ -99,13 +101,8 @@ export function getFoodItemsByCategory(categories : string[]){
 }
 
 
-// export  function getFoodItemsByCategory(category :string){
+// if(!rawDate){
+    //   date = new Date();
+    // }
 
-//   const foodItemsToShow :string[] = [];
-//   foodDatabase.forEach(foodItem =>{
-//     if(foodItem.category === category){
-//       foodItemsToShow.push(foodItem.name);
-//     }
-//   })
-//   return foodItemsToShow;
-// }
+    // else

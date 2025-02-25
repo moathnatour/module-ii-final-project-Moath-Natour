@@ -89,7 +89,6 @@ a {
 
 .day {
   width: calc(100% /62);
-  height: 50%;
   background-color: brown;
   place-self: end;
 }
@@ -123,4 +122,8 @@ label:has(+ .category-checkbox:checked) {
   display: flex;
   justify-content: center;
   gap: 1rem;
+}
+
+.hidden {
+  display: none;
 }

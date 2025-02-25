@@ -41,19 +41,7 @@
 <div class="day"></div>
         </div>    
         <div id="calories-tracker" class="chart">
-            <div class="day"></div>
-            <div class="day"></div>
-            <div class="day"></div>
-            <div class="day"></div>
-            <div class="day"></div>
-            <div class="day"></div>
-            <div class="day"></div>
-            <div class="day"></div>
-            <div class="day"></div>
-            <div class="day"></div>
-            <div class="day"></div>
-            <div class="day"></div>
-            <div class="day"></div>
+            
         </div>
         <div id="today-tracker" class="chart">
             <div class="day"></div>
@@ -74,21 +62,22 @@
     
         <div id="add-meal-display" class="stack">
             <h2>Construct your Meal.</h2>
+            <div id="categories">
+                <label for="vegetable">Vegetables</label>
+                <input type="checkbox" id="vegetable" name="Vegetable" class="category-checkbox">
+                <label for="fruit">Fruits</label>
+                <input type="checkbox" id="fruit" name="Fruit" class="category-checkbox">
+                <label for="protein">Meats</label>
+                <input type="checkbox" id="protein" name="Protein" class="category-checkbox">
+                <label for="dairy">Dairy</label>
+                <input type="checkbox" id="dairy" name="Dairy" class="category-checkbox">
+                <label for="fats">Fats</label>
+                <input type="checkbox" id="fats" name="Fat" class="category-checkbox">
+                <label for="carbohydrates">CarboHydrates</label>
+                <input type="checkbox" id="carbohydrates" name="Carbohydrate" class="category-checkbox">
+            </div>
             <form name="food item form" >
-                <div id="categories">
-                        <label for="vegetable">Vegetables</label>
-                        <input type="checkbox" id="vegetable" name="Vegetable" class="category-checkbox">
-                        <label for="fruit">Fruits</label>
-                        <input type="checkbox" id="fruit" name="Fruit" class="category-checkbox">
-                        <label for="protein">Meats</label>
-                        <input type="checkbox" id="protein" name="Protein" class="category-checkbox">
-                        <label for="dairy">Dairy</label>
-                        <input type="checkbox" id="dairy" name="Dairy" class="category-checkbox">
-                        <label for="fats">Fats</label>
-                        <input type="checkbox" id="fats" name="Fat" class="category-checkbox">
-                        <label for="carbohydrates">CarboHydrates</label>
-                        <input type="checkbox" id="carbohydrates" name="Carbohydrate" class="category-checkbox">
-                    </div>
+                
                 <select name="options" id="options">
                     
                 </select>
@@ -99,6 +88,10 @@
             <form name="meal" class="stack">  
                 <div>
                     <input name="name" type="text" placeholder="Name your Meal">
+                </div>
+                <div>
+                    <button type="button" id="date-button">Log forgotten meal</button>
+                    <input type="date" name="date" id="log-meal-date" class="hidden">
                 </div>
             <div class="row">
                 <div id="fooditems-display">
@@ -118,7 +111,8 @@
         init(document.getElementById('add-meal-button'),
     document.getElementById('add-meal-display'),
 document.getElementById('cancel-form-button'),
-document.getElementById('options')
+document.getElementById('options'),
+document.getElementById('calories-tracker')
 );
     </script>
 </body>
