@@ -1,14 +1,16 @@
 import { onAddMeal, getFoodItemsFromDatabase, getFoodItemsByCategory} from "./controller.js"
-import {monthlyLog, getCaloriesPerDay} from "./model.js"
+import {monthlyLog, getCaloriesPerDay, getTodaysMeals, getCaloriesByMeal} from "./model.js"
 export function init(addMealButton : HTMLElement, formDisplay : HTMLElement,
      displayCancel :HTMLElement , options : HTMLElement, monthlyCaloriesChart : HTMLElement,
+     caloricIntakeChart : HTMLElement
      ){
         const {onAddFoodItemToMeal, onRemoveFoodItemFromMeal, onAdd, getFoodItemName,
             getFoodItemWeight, resetFoodItemsToAddToMealList
         } = onAddMeal();
         console.log(monthlyLog);
         renderCalorieTrackerChart();
-       function renderCalorieTrackerChart(){
+        renderTodayMealschart();
+    function renderCalorieTrackerChart(){
 monthlyCaloriesChart.innerHTML = "";
 for(const day of monthlyLog){
    const calories = getCaloriesPerDay(day);
@@ -19,6 +21,23 @@ for(const day of monthlyLog){
    monthlyCaloriesChart.appendChild(newDiv);
 }
        }
+
+       function renderTodayMealschart(){
+        caloricIntakeChart.innerHTML = "";
+const mealsToRender = getTodaysMeals();
+mealsToRender.forEach(m =>{
+    const calories = getCaloriesByMeal(m);
+    let height = 0;
+    if(typeof calories !== "string"){
+height = (calories/5000)*100;
+    }
+    const newDiv = document.createElement('div');
+    newDiv.classList.add('day')
+    newDiv.style.height = `${height}%`;
+    caloricIntakeChart.appendChild(newDiv);
+})
+       }
+
 
     addMealButton.addEventListener('click', function(e){
 e.preventDefault();
@@ -145,6 +164,7 @@ foodItemToRemove.remove();
         onAdd(formData);
         foodItemDisplay.innerHTML = "";
         renderCalorieTrackerChart();
+        renderTodayMealschart();
         console.log(monthlyLog);
 
     })

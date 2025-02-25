@@ -26,7 +26,7 @@ type day = {
 }
 
 export let monthlyLog :day[]= [];
-// monthlyLog = getMonthlyLogFromLocalStorage();
+
 
 monthlyLog = getMonthlyLogFromLocalStorage();
 export function constructMonthlyLog(){
@@ -68,7 +68,13 @@ export function getCaloriesPerDay(day : day){
 }
 
 
-export let foodItemsToAddToMeal : foodItem[] = []
+export function getTodaysMeals(){
+const todayDate = new Date();
+todayDate.setHours(0, 0, 0, 0)
+ return monthlyLog.find(d=>(
+  d.date.getDate() === todayDate.getDate()
+)).meals
+}
 
 export function addMeal(meal : meal){
 const mealDate = meal.date;
@@ -420,14 +426,14 @@ function getMonthlyLogFromLocalStorage(){
 
   
     let monthlyLog = JSON.parse(logJSON);
-    // console.log(monthlyLog);
+    
 
     if(Array.isArray(monthlyLog)){
-      monthlyLog.map(day => ({
+     return monthlyLog.map(day => ({
         ...day,
         date: new Date(day.date), 
         meals: day.meals.map((meal : meal) => ({
-          ...meal, // 
+          ...meal, 
           date: new Date(meal.date), 
         })),
       }));

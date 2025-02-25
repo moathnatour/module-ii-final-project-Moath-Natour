@@ -1,9 +1,10 @@
 import { onAddMeal, getFoodItemsFromDatabase, getFoodItemsByCategory } from "./controller.js";
-import { monthlyLog, getCaloriesPerDay } from "./model.js";
-export function init(addMealButton, formDisplay, displayCancel, options, monthlyCaloriesChart) {
+import { monthlyLog, getCaloriesPerDay, getTodaysMeals, getCaloriesByMeal } from "./model.js";
+export function init(addMealButton, formDisplay, displayCancel, options, monthlyCaloriesChart, caloricIntakeChart) {
     const { onAddFoodItemToMeal, onRemoveFoodItemFromMeal, onAdd, getFoodItemName, getFoodItemWeight, resetFoodItemsToAddToMealList } = onAddMeal();
     console.log(monthlyLog);
     renderCalorieTrackerChart();
+    renderTodayMealschart();
     function renderCalorieTrackerChart() {
         monthlyCaloriesChart.innerHTML = "";
         for (const day of monthlyLog) {
@@ -14,6 +15,21 @@ export function init(addMealButton, formDisplay, displayCancel, options, monthly
             newDiv.style.height = `${height}%`;
             monthlyCaloriesChart.appendChild(newDiv);
         }
+    }
+    function renderTodayMealschart() {
+        caloricIntakeChart.innerHTML = "";
+        const mealsToRender = getTodaysMeals();
+        mealsToRender.forEach(m => {
+            const calories = getCaloriesByMeal(m);
+            let height = 0;
+            if (typeof calories !== "string") {
+                height = (calories / 5000) * 100;
+            }
+            const newDiv = document.createElement('div');
+            newDiv.classList.add('day');
+            newDiv.style.height = `${height}%`;
+            caloricIntakeChart.appendChild(newDiv);
+        });
     }
     addMealButton.addEventListener('click', function (e) {
         e.preventDefault();
@@ -113,6 +129,7 @@ export function init(addMealButton, formDisplay, displayCancel, options, monthly
         onAdd(formData);
         foodItemDisplay.innerHTML = "";
         renderCalorieTrackerChart();
+        renderTodayMealschart();
         console.log(monthlyLog);
     });
     const dateButton = document.getElementById('date-button');
