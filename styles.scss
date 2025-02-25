@@ -96,6 +96,25 @@ text-align: center;
     
     background-color: brown;
     place-self: end;
+    position: relative;
+    p{
+margin: 0;
+position: absolute;
+bottom: 100%;
+left: 100%;
+font-size: 0.8rem;
+transform: translate(-75%);
+opacity: 0;
+transition: all 300ms;
+
+    }
+
+    &:hover{
+        p{
+            opacity: 1;
+        }
+    }
+    
 }
 
 .stack{

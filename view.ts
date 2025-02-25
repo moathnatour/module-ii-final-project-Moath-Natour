@@ -10,6 +10,8 @@ export function init(addMealButton : HTMLElement, formDisplay : HTMLElement,
         console.log(monthlyLog);
         renderCalorieTrackerChart();
         renderTodayMealschart();
+
+
     function renderCalorieTrackerChart(){
 monthlyCaloriesChart.innerHTML = "";
 for(const day of monthlyLog){
@@ -17,7 +19,12 @@ for(const day of monthlyLog){
     const height = (calories/5000) * 100
    const newDiv = document.createElement('div');
    newDiv.classList.add('day');
-   newDiv.style.height = `${height}%`
+   newDiv.style.height = `${height}%`;
+   if(calories > 0){
+   const caloriesDisplay = document.createElement('p');
+   caloriesDisplay.innerText = calories.toString();
+   newDiv.appendChild(caloriesDisplay);
+   }
    monthlyCaloriesChart.appendChild(newDiv);
 }
        }
@@ -34,6 +41,11 @@ height = (calories/5000)*100;
     const newDiv = document.createElement('div');
     newDiv.classList.add('day')
     newDiv.style.height = `${height}%`;
+    if(typeof calories !== "string" && calories > 0){
+        const caloriesDisplay = document.createElement('p');
+   caloriesDisplay.innerText = calories.toString();
+   newDiv.appendChild(caloriesDisplay);
+        }
     caloricIntakeChart.appendChild(newDiv);
 })
        }
@@ -173,6 +185,7 @@ foodItemToRemove.remove();
  const logMealDate = document.getElementById('log-meal-date');
  dateButton.addEventListener("click", function(e){
     logMealDate.classList.toggle('hidden');
+
  })
 
     }

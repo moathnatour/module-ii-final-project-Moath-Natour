@@ -91,7 +91,7 @@ export function getCaloriesByMeal(meal) {
 export function addFoodItem(food) {
     foodDatabase.push(food);
 }
-export const foodDatabase = [
+export let foodDatabase = [
     {
         name: "Chicken breast",
         category: "Protein",
@@ -357,6 +357,7 @@ export const foodDatabase = [
         fat: 100
     }
 ];
+foodDatabase = getUpdatedDatabaseFromLocalStorage();
 function saveMonthlyLogToLocalStorage() {
     localStorage.setItem('monthlyLog', JSON.stringify(monthlyLog));
 }
@@ -376,4 +377,12 @@ function getMonthlyLogFromLocalStorage() {
     else
         monthlyLog = constructMonthlyLog();
     return monthlyLog;
+}
+export function saveDatabaseToLocalStorage() {
+    localStorage.setItem('database', JSON.stringify(foodDatabase));
+}
+function getUpdatedDatabaseFromLocalStorage() {
+    const dataJSON = localStorage.getItem('database');
+    const newDatabase = JSON.parse(dataJSON);
+    return newDatabase ? newDatabase : foodDatabase;
 }

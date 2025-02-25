@@ -29,6 +29,8 @@ export let monthlyLog :day[]= [];
 
 
 monthlyLog = getMonthlyLogFromLocalStorage();
+
+
 export function constructMonthlyLog(){
   let monthlyLog :day[] = [];
   const today : Date = new Date();
@@ -147,7 +149,7 @@ return totalCalories;
     foodDatabase.push(food);
 }
 
-export const foodDatabase : foodItem[] = [
+export let foodDatabase : foodItem[] = [
   {
     name: "Chicken breast",
     category: "Protein",
@@ -414,6 +416,7 @@ export const foodDatabase : foodItem[] = [
   }
   
 ];
+foodDatabase = getUpdatedDatabaseFromLocalStorage();
 
 function saveMonthlyLogToLocalStorage(){
 
@@ -444,3 +447,19 @@ function getMonthlyLogFromLocalStorage(){
     return monthlyLog;
     }
     
+export function saveDatabaseToLocalStorage(){
+
+  localStorage.setItem('database', JSON.stringify(foodDatabase));
+}
+
+
+ function getUpdatedDatabaseFromLocalStorage(){
+
+  const dataJSON = localStorage.getItem('database');
+
+  const newDatabase = JSON.parse(dataJSON);
+
+  return  newDatabase ? newDatabase : foodDatabase;
+  
+}
+

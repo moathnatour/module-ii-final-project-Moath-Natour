@@ -13,6 +13,11 @@ export function init(addMealButton, formDisplay, displayCancel, options, monthly
             const newDiv = document.createElement('div');
             newDiv.classList.add('day');
             newDiv.style.height = `${height}%`;
+            if (calories > 0) {
+                const caloriesDisplay = document.createElement('p');
+                caloriesDisplay.innerText = calories.toString();
+                newDiv.appendChild(caloriesDisplay);
+            }
             monthlyCaloriesChart.appendChild(newDiv);
         }
     }
@@ -28,6 +33,11 @@ export function init(addMealButton, formDisplay, displayCancel, options, monthly
             const newDiv = document.createElement('div');
             newDiv.classList.add('day');
             newDiv.style.height = `${height}%`;
+            if (typeof calories !== "string" && calories > 0) {
+                const caloriesDisplay = document.createElement('p');
+                caloriesDisplay.innerText = calories.toString();
+                newDiv.appendChild(caloriesDisplay);
+            }
             caloricIntakeChart.appendChild(newDiv);
         });
     }
