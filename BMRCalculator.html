@@ -22,6 +22,7 @@
             <li><a href="updateInfo.html">Update Info</a></li>  
         </ul>
     </nav>
+
     <form name="bmi">
         <div>
             <label for="weight">Insert your weight in Kilograms.</label>
@@ -31,15 +32,28 @@
             <label for="height">Insert your height in Centemeters</label>
             <input type="text" id="height" name="height" placeholder="cm" required>
         </div>
+        <div>
+            <label for="age">Age</label>
+            <input type="text" id="age" name="age">
+        </div>
+        <div>
+            <label for="">Gender:</label>
+            <label for="male">Male</label>
+            <input type="radio" id="male" name="gender" value="male" checked>
+            <label for="female">Female</label>
+            <input type="radio" id="female" name="gender" value="female">
+        </div>
         <div id="error-display"></div>
-        <button>Calculate</button>
+        <button type="submit">Calculate</button>
         <div id="result-display"></div>
     </form>
+    
     <script type="module">
-        import {init} from "./dist/BMIView.js"
+        import { init } from "./dist/BMRCalculatorView.js"
         init(document.forms.namedItem('bmi'),
-    document.getElementById('error-display'),
-document.getElementById('result-display'),)
+              document.getElementById('error-display'),
+               document.getElementById('result-display'),)
+        
     </script>
 </body>
 </html>
