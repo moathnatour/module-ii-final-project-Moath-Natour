@@ -15,36 +15,32 @@
     <nav class="nav-bar">
         <ul class="nav-list">
             <li><a href="index.html">Home</a></li>
+            <li><a href="" id="add-meal-button">Add Meal</a></li>
             <li><a href="">Calculate BMI</a></li>
             <li><a href="">Calculate BMR</a></li>
             <li><a href="myFoodsList.html">MyFoods list</a></li>
             <li><a href="">My Progress</a></li>
-            <li><a href="updateInfo.html">Update Weight</a></li>
+            <li><a href="updateInfo.html">Update Info</a></li>  
         </ul>
     </nav>
-    <main>
-        <form name="info">
-            <div>
-<label for="weight">Please insert your current weight in Kilograms</label>
-<input type="text" id="weight" name="weight"  required>
-            </div>
+    <form name="bmi">
         <div>
-            <button type="button" id="choose-date">Log weight for another day</button>
-            <input type="date" name="date" id="date-input" class="hidden">
+            <label for="weight">Insert your weight in Kilograms.</label>
+            <input type="text" id="weight" name="weight" placeholder="kg" required>
+        </div>
+        <div>
+            <label for="height">Insert your height in Centemeters</label>
+            <input type="text" id="height" name="height" placeholder="cm" required>
         </div>
         <div id="error-display"></div>
-        <button type="submit">Update</button>
-        </form>
-    </main>
-    
+        <button>Calculate</button>
+        <div id="result-display"></div>
+    </form>
     <script type="module">
-        import { init } from "./dist/updateInfoView.js"
-
-        init(document.forms.namedItem('info'),
+        import {init} from "./dist/BMIView.js"
+        init(document.forms.namedItem('bmi'),
     document.getElementById('error-display'),
-    document.getElementById('choose-date'),
-    document.getElementById('date-input')
-);
+document.getElementById('result-display'),)
     </script>
 </body>
 </html>
