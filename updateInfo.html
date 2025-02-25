@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="dist/styles.css">
+</head>
+<body>
+    <header class="header">
+        <h1>Diet Tracker</h1>
+        <h2 id="greet__display">Welcome</h2>
+        <a href="" class="__break-right">Log Out</a>
+    </header>
+    <nav class="nav-bar">
+        <ul class="nav-list">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="">Calculate BMI</a></li>
+            <li><a href="">Calculate BMR</a></li>
+            <li><a href="myFoodsList.html">MyFoods list</a></li>
+            <li><a href="">My Progress</a></li>
+            <li><a href="">My Meals</a></li>
+            <li><a href="updateInfo.html">Update Weight</a></li>
+        </ul>
+    </nav>
+    <main>
+        <form name="info">
+            <div>
+<label for="weight">Please insert your current weight in Kilograms</label>
+<input type="text" id="weight" name="weight"  required>
+            </div>
+        <div>
+            <button type="button" id="choose-date">Log weight for another day</button>
+            <input type="date" name="date" id="date-input">
+        </div>
+        <div id="error-display"></div>
+        <button type="submit">Update</button>
+        </form>
+    </main>
+    
+    <script type="module">
+        import { init } from "./dist/updateInfoView.js"
+
+        init(document.forms.namedItem('info'),
+    document.getElementById('error-display'),
+    document.getElementById('choose-date'),
+    document.getElementById('date-input')
+);
+    </script>
+</body>
+</html>

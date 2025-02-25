@@ -23,6 +23,7 @@ type day = {
   date : Date,
   id : string,
   meals : meal[],
+  userWeight? : number,
 }
 
 export let monthlyLog :day[]= [];
@@ -418,7 +419,7 @@ export let foodDatabase : foodItem[] = [
 ];
 foodDatabase = getUpdatedDatabaseFromLocalStorage();
 
-function saveMonthlyLogToLocalStorage(){
+export function saveMonthlyLogToLocalStorage(){
 
   localStorage.setItem('monthlyLog', JSON.stringify(monthlyLog));
 }

@@ -7,5 +7,5 @@ export function getItemsInFoodDatabase() {
     return dataBase;
 }
 export function checkForDuplicateItem(name) {
-    return foodDatabase.find(foodItem => (foodItem.name === name));
+    return foodDatabase.find(foodItem => (foodItem.name.toLocaleLowerCase() === name.toLocaleLowerCase()));
 }

@@ -358,7 +358,7 @@ export let foodDatabase = [
     }
 ];
 foodDatabase = getUpdatedDatabaseFromLocalStorage();
-function saveMonthlyLogToLocalStorage() {
+export function saveMonthlyLogToLocalStorage() {
     localStorage.setItem('monthlyLog', JSON.stringify(monthlyLog));
 }
 function getMonthlyLogFromLocalStorage() {

@@ -13,5 +13,5 @@ export function getItemsInFoodDatabase(){
 
 export function checkForDuplicateItem(name : string){
 
-  return  foodDatabase.find(foodItem =>(foodItem.name === name));
+  return  foodDatabase.find(foodItem =>(foodItem.name.toLocaleLowerCase() === name.toLocaleLowerCase()));
 }
