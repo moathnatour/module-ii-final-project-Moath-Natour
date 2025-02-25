@@ -2,7 +2,7 @@ import { onAddMeal, getFoodItemsFromDatabase, getFoodItemsByCategory} from "./co
 import {monthlyLog, getCaloriesPerDay, getTodaysMeals, getCaloriesByMeal} from "./model.js"
 export function init(addMealButton : HTMLElement, formDisplay : HTMLElement,
      displayCancel :HTMLElement , options : HTMLElement, monthlyCaloriesChart : HTMLElement,
-     caloricIntakeChart : HTMLElement
+     caloricIntakeChart : HTMLElement, monthlyWeightChart : HTMLElement
      ){
         const {onAddFoodItemToMeal, onRemoveFoodItemFromMeal, onAdd, getFoodItemName,
             getFoodItemWeight, resetFoodItemsToAddToMealList
@@ -10,6 +10,7 @@ export function init(addMealButton : HTMLElement, formDisplay : HTMLElement,
         console.log(monthlyLog);
         renderCalorieTrackerChart();
         renderTodayMealschart();
+        renderWeightTrackerChart();
 
 
     function renderCalorieTrackerChart(){
@@ -48,6 +49,28 @@ height = (calories/5000)*100;
         }
     caloricIntakeChart.appendChild(newDiv);
 })
+       }
+
+       function renderWeightTrackerChart(){
+monthlyWeightChart.innerHTML = '';
+
+for(const day of monthlyLog){
+    const currentWeight  = day.userWeight;
+    let height = 0;
+    if(currentWeight){
+height = (currentWeight /150)*100;
+    }
+const newDiv = document.createElement('div');
+newDiv.classList.add('day');
+newDiv.style.height = `${height}%`;
+if(height > 0){
+    const weightDisplay = document.createElement('p');
+    weightDisplay.innerText = currentWeight.toString();
+    newDiv.appendChild(weightDisplay);
+}
+monthlyWeightChart.appendChild(newDiv);
+}
+
        }
 
 

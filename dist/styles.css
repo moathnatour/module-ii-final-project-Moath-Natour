@@ -79,13 +79,6 @@ a {
   display: flex;
   justify-content: space-around;
 }
-.chart::before {
-  content: "";
-  position: absolute;
-  width: 2px;
-  height: 100%;
-  background-color: black;
-}
 
 .day {
   width: calc(100% /62);
