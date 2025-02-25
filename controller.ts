@@ -1,4 +1,4 @@
-import {searchFoodItemByName, addMeal , foodItem, foodItemsToAddToMeal, meals} from "./model.js"
+import {searchFoodItemByName, addMeal , foodItem, meals, foodDatabase} from "./model.js"
 
 
 
@@ -37,10 +37,9 @@ function getFoodItemWeight(formData :FormData){
   return foodItemWeight;
 }
 
-// function getFoodItemId(formData :FormData){
-
-//   const foodItemId = formData.get('')
-// }
+function resetFoodItemsToAddToMealList(){
+  foodItemsToAddToMeal = [];
+}
 
 function onRemoveFoodItemFromMeal(foodItemId :string){
  
@@ -70,7 +69,43 @@ console.log(meals);
 foodItemsToAddToMeal = [];
 }
 
-return { onAddFoodItemToMeal, onRemoveFoodItemFromMeal, onAdd, getFoodItemName, getFoodItemWeight};
+return { onAddFoodItemToMeal, onRemoveFoodItemFromMeal, onAdd,
+   getFoodItemName, getFoodItemWeight, resetFoodItemsToAddToMealList};
 
 }
 
+export function getFoodItemsFromDatabase(){
+  const foodItemsToShow : string[]= [];
+  foodDatabase.forEach(foodItem =>{
+    foodItemsToShow.push(foodItem.name);
+  })
+  return foodItemsToShow;
+}
+
+export function getFoodItemsByCategory(categories : string[]){
+
+  const foodItemsToShow :string[] = [];
+  
+  foodDatabase.forEach(foodItem =>{
+    categories.forEach(c =>{
+      if(foodItem.category === c){
+        foodItemsToShow.push(foodItem.name);
+      }
+    })
+  })
+  console.log(foodItemsToShow);
+  return foodItemsToShow;
+ 
+}
+
+
+// export  function getFoodItemsByCategory(category :string){
+
+//   const foodItemsToShow :string[] = [];
+//   foodDatabase.forEach(foodItem =>{
+//     if(foodItem.category === category){
+//       foodItemsToShow.push(foodItem.name);
+//     }
+//   })
+//   return foodItemsToShow;
+// }

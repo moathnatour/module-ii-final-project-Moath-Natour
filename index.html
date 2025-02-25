@@ -89,12 +89,8 @@
                         <label for="carbohydrates">CarboHydrates</label>
                         <input type="checkbox" id="carbohydrates" name="Carbohydrate" class="category-checkbox">
                     </div>
-                <input type="search" id="searchbar">
                 <select name="options" id="options">
-                    <option value="0"></option>
-                    <option value="Chicken breast">Chicken breast</option>
-                    <option value="Olive oil">Olive oil</option>
-                    <option value="Coconut oil">Coconut oil</option>
+                    
                 </select>
                 <input type="text" name="weight" placeholder="Insert how much you had in grams" required>
                 <button id="add-foodItem" type="submit">Add to meal</button>
@@ -106,7 +102,7 @@
                 </div>
             <div class="row">
                 <div id="fooditems-display">
-                    
+
                 </div>
                 <button type="submit" id="submit-form-button">Add</button>
                 <button type="button" id="cancel-form-button">Cancel</button>
@@ -122,6 +118,7 @@
         init(document.getElementById('add-meal-button'),
     document.getElementById('add-meal-display'),
 document.getElementById('cancel-form-button'),
+document.getElementById('options')
 );
     </script>
 </body>

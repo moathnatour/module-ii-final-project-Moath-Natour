@@ -1,14 +1,101 @@
-import { onAddMeal } from "./controller.js";
-export function init(addMealButton, formDisplay, displayCancel) {
-    const { onAddFoodItemToMeal, onRemoveFoodItemFromMeal, onAdd, getFoodItemName, getFoodItemWeight } = onAddMeal();
+import { onAddMeal, getFoodItemsFromDatabase, getFoodItemsByCategory } from "./controller.js";
+export function init(addMealButton, formDisplay, displayCancel, options) {
+    const { onAddFoodItemToMeal, onRemoveFoodItemFromMeal, onAdd, getFoodItemName, getFoodItemWeight, resetFoodItemsToAddToMealList } = onAddMeal();
     addMealButton.addEventListener('click', function (e) {
         e.preventDefault();
         e.stopPropagation();
         formDisplay.style.display = "block";
+        displayFoodItems();
     });
+    const categories = document.querySelectorAll("#categories input");
+    function displayFoodItems() {
+        let checkedCategories = checkForCheckedCategories();
+        if (checkedCategories.length === 0) {
+            options.innerHTML = "";
+            displayAllFoodItems();
+        }
+        else if (checkedCategories.length > 0) {
+            checkedCategories = checkForCheckedCategories();
+            options.innerHTML = "";
+            displayCheckedCategories(checkedCategories);
+        }
+        function displayAllFoodItems() {
+            const foodItemsToShow = getFoodItemsFromDatabase();
+            for (const foodItem of foodItemsToShow) {
+                const foodItemToShow = document.createElement('option');
+                foodItemToShow.innerHTML = foodItem;
+                foodItemToShow.value = foodItem;
+                options.appendChild(foodItemToShow);
+            }
+        }
+        function displayCheckedCategories(categories) {
+            const categoriesToDisplay = getFoodItemsByCategory(categories);
+            for (const foodItem of categoriesToDisplay) {
+                const foodItemToShow = document.createElement('option');
+                foodItemToShow.innerHTML = foodItem;
+                foodItemToShow.value = foodItem;
+                options.appendChild(foodItemToShow);
+            }
+        }
+        function checkForCheckedCategories() {
+            let categoriesToShow = [];
+            categories.forEach(c => {
+                if (c.checked) {
+                    categoriesToShow.push(c.name);
+                }
+                if (!c.checked) {
+                    categoriesToShow = categoriesToShow.filter(categoryName => {
+                        return c.name !== categoryName;
+                    });
+                }
+            });
+            return categoriesToShow;
+        }
+    }
+    categories.forEach(c => {
+        c.addEventListener('change', function (e) {
+            displayFoodItems();
+        });
+    });
+    // displayFoodItems();
+    // function checkForCheckedCategories(){
+    //     let categoriesToShow : string[] = [];
+    //     categories.forEach(c=>{
+    //         if(c.checked){
+    // categoriesToShow.push(c.name)
+    //         }
+    //         if(!c.checked){
+    // categoriesToShow = categoriesToShow.filter(categoryName =>{
+    //     return c.name !== categoryName
+    // })
+    //         }
+    //     })
+    //     return categoriesToShow;
+    // }
+    // displayCheckedCategories();
+    // categories.forEach(c=>{
+    //     c.addEventListener('change', function(e){
+    //         const category = e.target as HTMLInputElement
+    //         if(category.checked){
+    //         const foodItemsToShow = getFoodItemsByCategory(category.name);
+    //         const options = document.getElementById('options');
+    //         options.innerHTML = "";
+    //         for(const foodItem of foodItemsToShow){
+    //             const foodItemToShow = document.createElement('option');
+    //             foodItemToShow.innerHTML = foodItem;
+    //             foodItemToShow.value = foodItem;
+    //             options.appendChild(foodItemToShow);
+    //         } 
+    //     }
+    //     else {
+    //         displayFoodItems();
+    //     }
+    //     })
+    // })
     document.addEventListener('click', function (e) {
         formDisplay.style.display = "none";
         foodItemDisplay.innerHTML = "";
+        resetFoodItemsToAddToMealList();
     });
     formDisplay.addEventListener("click", function (e) {
         e.stopPropagation();
@@ -16,6 +103,7 @@ export function init(addMealButton, formDisplay, displayCancel) {
     displayCancel.addEventListener("click", function (e) {
         formDisplay.style.display = "none";
         foodItemDisplay.innerHTML = "";
+        resetFoodItemsToAddToMealList();
     });
     const mealForm = document.forms.namedItem('meal');
     const foodItemForm = document.forms.namedItem('food item form');

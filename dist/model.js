@@ -42,7 +42,7 @@ export function getCaloriesByMeal(meal) {
 export function addFoodItem(food) {
     foodDatabase.push(food);
 }
-const foodDatabase = [
+export const foodDatabase = [
     {
         name: "Chicken breast",
         category: "Protein",

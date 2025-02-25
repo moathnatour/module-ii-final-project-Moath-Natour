@@ -10,11 +10,6 @@ export type foodItem = {
     id?:string,
 }
 
-// type macros =  {
-//     protiensByGrams : number,
-//     carbohydatesByGrams : number,
-//     fatsByGrams : number,
-// };
 
 type meal = {
     name :string,
@@ -86,7 +81,7 @@ return totalCalories;
     foodDatabase.push(food);
 }
 
-const foodDatabase : foodItem[] = [
+export const foodDatabase : foodItem[] = [
   {
     name: "Chicken breast",
     category: "Protein",

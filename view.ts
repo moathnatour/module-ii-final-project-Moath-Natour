@@ -1,21 +1,91 @@
-import { onAddMeal} from "./controller.js"
+import { onAddMeal, getFoodItemsFromDatabase, getFoodItemsByCategory} from "./controller.js"
 
-export function init(addMealButton : HTMLElement, formDisplay : HTMLElement, displayCancel :HTMLElement ,
+export function init(addMealButton : HTMLElement, formDisplay : HTMLElement,
+     displayCancel :HTMLElement , options : HTMLElement,
      ){
         const {onAddFoodItemToMeal, onRemoveFoodItemFromMeal, onAdd, getFoodItemName,
-            getFoodItemWeight
+            getFoodItemWeight, resetFoodItemsToAddToMealList
         } = onAddMeal();
+        
     addMealButton.addEventListener('click', function(e){
 e.preventDefault();
 e.stopPropagation();
 formDisplay.style.display = "block"; 
 
+displayFoodItems();
+
 
     });
+    const categories : NodeListOf<HTMLInputElement> = document.querySelectorAll("#categories input")
+    function displayFoodItems(){
+let checkedCategories = checkForCheckedCategories();
+if(checkedCategories.length  === 0){
+    options.innerHTML ="";
+    displayAllFoodItems();
+}
+else if(checkedCategories.length > 0){
+    checkedCategories = checkForCheckedCategories();
+    options.innerHTML = "";
+displayCheckedCategories(checkedCategories);
+}
+    
 
+function displayAllFoodItems(){
+    const foodItemsToShow = getFoodItemsFromDatabase();
+   
+    for(const foodItem of foodItemsToShow){
+    
+        const foodItemToShow = document.createElement('option');
+        foodItemToShow.innerHTML = foodItem;
+        foodItemToShow.value = foodItem;
+        options.appendChild(foodItemToShow);
+    }
+    
+}
+
+function displayCheckedCategories(categories : string[]){
+    const categoriesToDisplay = getFoodItemsByCategory(categories);
+    for(const foodItem of categoriesToDisplay){
+    
+        const foodItemToShow = document.createElement('option');
+        foodItemToShow.innerHTML = foodItem;
+        foodItemToShow.value = foodItem;
+        options.appendChild(foodItemToShow);
+    }
+
+}
+
+function checkForCheckedCategories(){
+    let categoriesToShow : string[] = [];
+    categories.forEach(c=>{
+        if(c.checked){
+categoriesToShow.push(c.name)
+        }
+
+        if(!c.checked){
+categoriesToShow = categoriesToShow.filter(categoryName =>{
+    return c.name !== categoryName
+})
+        }
+    })
+
+    return categoriesToShow;
+}
+    }
+
+
+    categories.forEach(c =>{
+        c.addEventListener('change', function(e){
+            displayFoodItems();
+        })
+    })
+
+
+   
     document.addEventListener('click', function(e){
     formDisplay.style.display = "none"
     foodItemDisplay.innerHTML = "";
+    resetFoodItemsToAddToMealList();
     
     })
 
@@ -26,6 +96,7 @@ formDisplay.style.display = "block";
     displayCancel.addEventListener("click", function(e){
         formDisplay.style.display = "none";
         foodItemDisplay.innerHTML = "";
+        resetFoodItemsToAddToMealList();
     })
 
     const mealForm  = document.forms.namedItem('meal');
