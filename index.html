@@ -15,7 +15,7 @@
     <nav class="nav-bar">
         <ul class="nav-list">
             <li><a href="">Home</a></li>
-            <li><a href="">Add Meal</a></li>
+            <li><a href="" id="add-meal-button">Add Meal</a></li>
             <li><a href="">Calculate BMI</a></li>
             <li><a href="">Calculate BMR</a></li>
             <li><a href="">MyFoods List</a></li>
@@ -25,19 +25,104 @@
         </ul>
     </nav>
     <main>
-        <article id="calorie-tracker">
-
-        </article>
-
-        <article id="weight-tracker">
-
-        </article>
-
-        <article id="today-tracker">
-
-        </article>
+        <div id="weight-tracker" class="chart">
+<div class="day"></div>
+<div class="day"></div>
+<div class="day"></div>
+<div class="day"></div>
+<div class="day"></div>
+<div class="day"></div>
+<div class="day"></div>
+<div class="day"></div>
+<div class="day"></div>
+<div class="day"></div>
+<div class="day"></div>
+<div class="day"></div>
+<div class="day"></div>
+        </div>    
+        <div id="calories-tracker" class="chart">
+            <div class="day"></div>
+            <div class="day"></div>
+            <div class="day"></div>
+            <div class="day"></div>
+            <div class="day"></div>
+            <div class="day"></div>
+            <div class="day"></div>
+            <div class="day"></div>
+            <div class="day"></div>
+            <div class="day"></div>
+            <div class="day"></div>
+            <div class="day"></div>
+            <div class="day"></div>
+        </div>
+        <div id="today-tracker" class="chart">
+            <div class="day"></div>
+            <div class="day"></div>
+            <div class="day"></div>
+            <div class="day"></div>
+            <div class="day"></div>
+            <div class="day"></div>
+            <div class="day"></div>
+            <div class="day"></div>
+            <div class="day"></div>
+            <div class="day"></div>
+            <div class="day"></div>
+            <div class="day"></div>
+            <div class="day"></div>
+        </div>
     </main>
     
-    <script src="dist/model.js"></script>
+        <div id="add-meal-display" class="stack">
+            <h2>Construct your Meal.</h2>
+            <form name="food item form" >
+                <div id="categories">
+                        <label for="vegetable">Vegetables</label>
+                        <input type="checkbox" id="vegetable" name="Vegetable" class="category-checkbox">
+                        <label for="fruit">Fruits</label>
+                        <input type="checkbox" id="fruit" name="Fruit" class="category-checkbox">
+                        <label for="protein">Meats</label>
+                        <input type="checkbox" id="protein" name="Protein" class="category-checkbox">
+                        <label for="dairy">Dairy</label>
+                        <input type="checkbox" id="dairy" name="Dairy" class="category-checkbox">
+                        <label for="fats">Fats</label>
+                        <input type="checkbox" id="fats" name="Fat" class="category-checkbox">
+                        <label for="carbohydrates">CarboHydrates</label>
+                        <input type="checkbox" id="carbohydrates" name="Carbohydrate" class="category-checkbox">
+                    </div>
+                <input type="search" id="searchbar">
+                <select name="options" id="options">
+                    <option value="0"></option>
+                    <option value="Chicken breast">Chicken breast</option>
+                    <option value="Olive oil">Olive oil</option>
+                    <option value="Coconut oil">Coconut oil</option>
+                </select>
+                <input type="text" name="weight" placeholder="Insert how much you had in grams" required>
+                <button id="add-foodItem" type="submit">Add to meal</button>
+            </form>
+         
+            <form name="meal" class="stack">  
+                <div>
+                    <input name="name" type="text" placeholder="Name your Meal">
+                </div>
+            <div class="row">
+                <div id="fooditems-display">
+                    
+                </div>
+                <button type="submit" id="submit-form-button">Add</button>
+                <button type="button" id="cancel-form-button">Cancel</button>
+            </div>
+            </form>
+        </div>
+
+        
+       
+    
+    <script type="module">
+        import {init} from "./dist/view.js";
+        init(document.getElementById('add-meal-button'),
+    document.getElementById('add-meal-display'),
+document.getElementById('cancel-form-button'),
+);
+    </script>
 </body>
 </html>

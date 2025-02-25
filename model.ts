@@ -1,33 +1,44 @@
 
-type foodItem = {
+export type foodItem = {
     name: string,
     category: "Protein" | "Carbohydrate" | "Fat" | "Dairy" | "Vegetable" | "Fruit"
     caloriesPer100g: number,
     protein: number,
     carbs: number,
     fat: number,
-    weight? : number
+    weight? : number,
+    id?:string,
 }
 
-type macros =  {
-    protiensByGrams : number,
-    carbohydatesByGrams : number,
-    fatsByGrams : number,
-};
+// type macros =  {
+//     protiensByGrams : number,
+//     carbohydatesByGrams : number,
+//     fatsByGrams : number,
+// };
 
 type meal = {
     name :string,
     id : string,
     content : foodItem[],
+    date: Date
 }
 
- function getCaloriesByMacros(macros :macros){
+ export let meals : meal[] = [];
 
- const  totalCalories = macros.protiensByGrams * 4 + macros.carbohydatesByGrams *4 + macros.fatsByGrams * 8 ;
-    return totalCalories;
+export let foodItemsToAddToMeal : foodItem[] = []
+
+export function addMeal(meal : meal){
+meals.push(meal);
 }
 
- function getCaloriesByFoodType(foodItem : foodItem){
+export function searchFoodItemByName(name : string){
+
+  const foodItem = foodDatabase.find(foodItem =>(foodItem.name.toLocaleLowerCase() === name.toLocaleLowerCase()));
+
+  return {...foodItem};
+}
+
+ export function getCaloriesByFoodType(foodItem : foodItem){
 let calories = 0
    const foodItemFound = foodDatabase.find(f => f.name === foodItem.name);
 
@@ -39,7 +50,7 @@ return calories;
 
 }
 
-function getCaloriesByMeal(meal :meal){
+export function getCaloriesByMeal(meal :meal){
 let totalCalories = 0;
 const missingWeights : string[] =[];
 meal.content.forEach(foodItem =>{
@@ -70,7 +81,7 @@ return totalCalories;
 
 
 
- function addFoodItem(food : foodItem){
+ export function addFoodItem(food : foodItem){
 
     foodDatabase.push(food);
 }
@@ -269,7 +280,7 @@ const foodDatabase : foodItem[] = [
     fat: 1
   },
   {
-    name: "Tuna (canned, in water)",
+    name: "Tuna",
     category: "Protein",
     caloriesPer100g: 132,
     protein: 28,
@@ -293,7 +304,7 @@ const foodDatabase : foodItem[] = [
     fat: 0.4
   },
   {
-    name: "Chickpeas ()",
+    name: "Chickpeas",
     category: "Carbohydrate",
     caloriesPer100g: 164,
     protein: 8.9,
@@ -346,41 +357,41 @@ const foodDatabase : foodItem[] = [
 
 
 
-const newMeal : meal  = {
+// const newMeal : meal  = {
 
-    name : "myMeal",
-    id : "hello",
-    content : [{
-        name: "Coconut oil",
-        category: "Fat",
-        caloriesPer100g: 892,
-        protein: 0,
-        carbs: 0,
-        fat: 100,
-        weight : 100,
-      },
-      {
-        name: "Potato",
-        category: "Carbohydrate",
-        caloriesPer100g: 77,
-        protein: 2,
-        carbs: 17.5,
-        fat: 0.1,
-        weight : 100,
-      },
-      {
-        name: "Oats",
-        category: "Carbohydrate",
-        caloriesPer100g: 389,
-        protein: 16.9,
-        carbs: 66.3,
-        fat: 6.9,
-        weight : 100,
-      }
-    ]
-}
+//     name : "myMeal",
+//     id : "hello",
+//     content : [{
+//         name: "Coconut oil",
+//         category: "Fat",
+//         caloriesPer100g: 892,
+//         protein: 0,
+//         carbs: 0,
+//         fat: 100,
+//         weight : 100,
+//       },
+//       {
+//         name: "Potato",
+//         category: "Carbohydrate",
+//         caloriesPer100g: 77,
+//         protein: 2,
+//         carbs: 17.5,
+//         fat: 0.1,
+//         weight : 100,
+//       },
+//       {
+//         name: "Oats",
+//         category: "Carbohydrate",
+//         caloriesPer100g: 389,
+//         protein: 16.9,
+//         carbs: 66.3,
+//         fat: 6.9,
+//         weight : 100,
+//       }
+//     ]
+// }
 
-console.log(getCaloriesByMeal(newMeal));
+// console.log(getCaloriesByMeal(newMeal));
 
 // [{
 //     name: "Coconut oil",

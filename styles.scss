@@ -2,6 +2,7 @@
 *::after,
 *::before{
     box-sizing: border-box;
+    interpolate-size: allow-keywords;
 }
 
 html, body{
@@ -14,13 +15,29 @@ html, body{
 main{
     margin: 0;
     padding: 0;
-    height: 100%;
+    width: min(120ch, calc(100% - 2rem));
+    margin-inline: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 5rem;
+    
+}
+
+ul, ol{
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+a{
+    text-decoration: none;
 }
 
 .header{
     display: flex;
     gap: 1rem;
- 
+ background-color: aqua;
 }
 
 .__break-right{
@@ -31,4 +48,86 @@ main{
 #greet__display{
 flex: 1;
 text-align: center;
+}
+
+.nav-bar{
+    width: 100%;
+}
+
+.nav-list{
+    display: flex;
+    justify-content: space-around;
+}
+
+#weight-tracker{
+    background-color: red;
+   width: 100%;
+    aspect-ratio: 16/9;
+    
+}
+
+#calories-tracker{
+    background-color: blue;
+    width: calc(50% - 0.5rem);
+    aspect-ratio: 16 / 9;
+    // flex-basis: calc(50% - 0.5rem);
+}
+
+#today-tracker{
+    width: calc(50% - 0.5rem);
+   aspect-ratio: 16 / 9;
+    background-color: blue;
+    // flex-basis: calc(50% - 0.5rem);
+}
+
+.chart{
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+    &::before{
+        content: "";
+        position: absolute;
+        width: 2px;
+        height: 100%;
+        background-color: black;
+    }
+}
+
+.day{
+    width: calc(100% /62);
+    height: 50%;
+    background-color: brown;
+    place-self: end;
+}
+
+.stack{
+
+    display:flex;
+flex-direction: column;
+gap: 0.5rem;
+}
+
+.category-checkbox{
+display: none;
+}
+
+label:has(+.category-checkbox:checked){
+    border: 1px solid black;
+}
+
+#add-meal-display{
+    position: fixed;
+    bottom: 50%;
+    left: 50%;
+    background-color: hsla(257, 86%, 9%, 0.699);
+    transform: translate(-50%, 50%);
+    padding: 1rem;
+    max-width: min-content;
+    display: none;
+}
+
+.row{
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
 }

@@ -1,10 +1,15 @@
-function getCaloriesByMacros(macros) {
-    var totalCalories = macros.protiensByGrams * 4 + macros.carbohydatesByGrams * 4 + macros.fatsByGrams * 8;
-    return totalCalories;
+export let meals = [];
+export let foodItemsToAddToMeal = [];
+export function addMeal(meal) {
+    meals.push(meal);
 }
-function getCaloriesByFoodType(foodItem) {
-    var calories = 0;
-    var foodItemFound = foodDatabase.find(function (f) { return f.name === foodItem.name; });
+export function searchFoodItemByName(name) {
+    const foodItem = foodDatabase.find(foodItem => (foodItem.name.toLocaleLowerCase() === name.toLocaleLowerCase()));
+    return { ...foodItem };
+}
+export function getCaloriesByFoodType(foodItem) {
+    let calories = 0;
+    const foodItemFound = foodDatabase.find(f => f.name === foodItem.name);
     if (foodItemFound && foodItem.weight) {
         calories = foodItem.caloriesPer100g * foodItem.weight / 100;
         return calories;
@@ -12,21 +17,20 @@ function getCaloriesByFoodType(foodItem) {
     else
         return "";
 }
-function getCaloriesByMeal(meal) {
-    var totalCalories = 0;
-    var missingWeights = [];
-    meal.content.forEach(function (foodItem) {
-        var caloriesToAdd = getCaloriesByFoodType(foodItem);
+export function getCaloriesByMeal(meal) {
+    let totalCalories = 0;
+    const missingWeights = [];
+    meal.content.forEach(foodItem => {
+        const caloriesToAdd = getCaloriesByFoodType(foodItem);
         if (typeof caloriesToAdd === "string") {
-            missingWeights.push("the weight of " + foodItem.name + " is missing");
+            missingWeights.push(`the weight of ${foodItem.name} is missing`);
         }
         else {
             totalCalories += caloriesToAdd;
         }
     });
     if (missingWeights.length > 0) {
-        for (var _i = 0, missingWeights_1 = missingWeights; _i < missingWeights_1.length; _i++) {
-            var missingWeight = missingWeights_1[_i];
+        for (const missingWeight of missingWeights) {
             console.log(missingWeight);
         }
         return "calculation failed, weights missing";
@@ -35,10 +39,10 @@ function getCaloriesByMeal(meal) {
         return totalCalories;
     }
 }
-function addFoodItem(food) {
+export function addFoodItem(food) {
     foodDatabase.push(food);
 }
-var foodDatabase = [
+const foodDatabase = [
     {
         name: "Chicken breast",
         category: "Protein",
@@ -232,7 +236,7 @@ var foodDatabase = [
         fat: 1
     },
     {
-        name: "Tuna (canned, in water)",
+        name: "Tuna",
         category: "Protein",
         caloriesPer100g: 132,
         protein: 28,
@@ -256,7 +260,7 @@ var foodDatabase = [
         fat: 0.4
     },
     {
-        name: "Chickpeas ()",
+        name: "Chickpeas",
         category: "Carbohydrate",
         caloriesPer100g: 164,
         protein: 8.9,
@@ -304,39 +308,39 @@ var foodDatabase = [
         fat: 100
     }
 ];
-var newMeal = {
-    name: "myMeal",
-    id: "hello",
-    content: [{
-            name: "Coconut oil",
-            category: "Fat",
-            caloriesPer100g: 892,
-            protein: 0,
-            carbs: 0,
-            fat: 100,
-            weight: 100
-        },
-        {
-            name: "Potato",
-            category: "Carbohydrate",
-            caloriesPer100g: 77,
-            protein: 2,
-            carbs: 17.5,
-            fat: 0.1,
-            weight: 100
-        },
-        {
-            name: "Oats",
-            category: "Carbohydrate",
-            caloriesPer100g: 389,
-            protein: 16.9,
-            carbs: 66.3,
-            fat: 6.9,
-            weight: 100
-        }
-    ]
-};
-console.log(getCaloriesByMeal(newMeal));
+// const newMeal : meal  = {
+//     name : "myMeal",
+//     id : "hello",
+//     content : [{
+//         name: "Coconut oil",
+//         category: "Fat",
+//         caloriesPer100g: 892,
+//         protein: 0,
+//         carbs: 0,
+//         fat: 100,
+//         weight : 100,
+//       },
+//       {
+//         name: "Potato",
+//         category: "Carbohydrate",
+//         caloriesPer100g: 77,
+//         protein: 2,
+//         carbs: 17.5,
+//         fat: 0.1,
+//         weight : 100,
+//       },
+//       {
+//         name: "Oats",
+//         category: "Carbohydrate",
+//         caloriesPer100g: 389,
+//         protein: 16.9,
+//         carbs: 66.3,
+//         fat: 6.9,
+//         weight : 100,
+//       }
+//     ]
+// }
+// console.log(getCaloriesByMeal(newMeal));
 // [{
 //     name: "Coconut oil",
 //     category: "Fat",
