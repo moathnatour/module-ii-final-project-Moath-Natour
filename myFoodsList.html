@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="dist/styles.css">
+    <link rel="stylesheet" href="dist/foodListStyle.css">
 </head>
 <body>
     <header class="header">
@@ -18,19 +19,18 @@
             <li><a href="BMICalculator.html">Calculate BMI</a></li>
             <li><a href="BMRCalculator.html">Calculate BMR</a></li>
             <li><a href="myFoodsList.html">MyFoods list</a></li>
-            <li><a href="">My Progress</a></li>
             <li><a href="updateInfo.html">Update Info</a></li>
         </ul>
     </nav>
     <main>
         <div>
-            <button id="add-fooditem" type="button">Add to MyFoods list</button>
+            <button id="add-fooditem" type="button" class="add-btn">Add to MyFoods list</button>
         </div>
         <div id="foodlist-container">
 
         </div>
 
-<div id="add-foodItem-container">
+<div id="add-foodItem-container" class="hidden">
         <form name="new food item">
             <div>
             <label for="name">Name</label>

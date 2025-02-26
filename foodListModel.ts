@@ -1,13 +1,16 @@
-import { foodDatabase, foodItem }  from "./model.js"
+import { foodDatabase, foodItem, getCurrentUserId, saveUsersToLocalStorage, users, }  from "./model.js"
 
+const currentUserId = getCurrentUserId();
+const currentUser = users.find(u => u.id === currentUserId)
 export function addToFoodDatabase(foodItem : foodItem){
 
-    foodDatabase.push(foodItem);
+    currentUser.foodDatabase.push(foodItem);
+    saveUsersToLocalStorage();
 }
 
 export function getItemsInFoodDatabase(){
-    const dataBase = foodDatabase.slice();
-    return dataBase;
+   return  currentUser.foodDatabase;
+    
 }
 
 

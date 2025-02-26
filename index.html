@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="dist/styles.css">
+    <link rel="stylesheet" href="dist/loginStyle.css">
 </head>
 <body>
     <header class="header">
@@ -17,7 +18,7 @@
               
         </ul>
     </nav>
-    
+    <main>
     <form name="login">
         <div class="stack">
             <input type="text" name="username" placeholder="Enter username" autofocus required>
@@ -26,6 +27,7 @@
             <button type="submit">Log In</button>
         </div>
     </form>
+</main>
     <script type="module">
         import {init} from "./dist/loginView.js";
         init(document.forms.namedItem('login'),

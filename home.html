@@ -36,32 +36,32 @@
         </div>
     </main>
     
-        <div id="add-meal-display" class="stack">
+        <div id="add-meal-display" class="stack " >
             <h2>Construct your Meal.</h2>
-            <div id="categories">
-                <label for="vegetable">Vegetables</label>
+            <div id="categories" class="categories-container">
+                <label for="vegetable" class="checkbox-label">Vegetables</label>
                 <input type="checkbox" id="vegetable" name="Vegetable" class="category-checkbox">
-                <label for="fruit">Fruits</label>
+                <label for="fruit" class="checkbox-label">Fruits</label>
                 <input type="checkbox" id="fruit" name="Fruit" class="category-checkbox">
-                <label for="protein">Meats</label>
+                <label for="protein" class="checkbox-label">Meats</label>
                 <input type="checkbox" id="protein" name="Protein" class="category-checkbox">
-                <label for="dairy">Dairy</label>
+                <label for="dairy" class="checkbox-label">Dairy</label>
                 <input type="checkbox" id="dairy" name="Dairy" class="category-checkbox">
-                <label for="fats">Fats</label>
+                <label for="fats" class="checkbox-label">Fats</label>
                 <input type="checkbox" id="fats" name="Fat" class="category-checkbox">
-                <label for="carbohydrates">CarboHydrates</label>
+                <label for="carbohydrates" class="checkbox-label">CarboHydrates</label>
                 <input type="checkbox" id="carbohydrates" name="Carbohydrate" class="category-checkbox">
             </div>
-            <form name="food item form" >
+            <form name="food item form" class="stack">
                 
-                <select name="options" id="options">
+                <select name="options" id="options" class="categories-options" >
                     
                 </select>
                 <input type="text" name="weight" placeholder="Insert how much you had in grams" required>
-                <button id="add-foodItem" type="submit">Add to meal</button>
+                <button id="add-foodItem" type="submit" class="add-btn">Add to meal</button>
             </form>
          
-            <form name="meal" class="stack">  
+            <form name="meal" class="stack addmeal-form">  
                 <div>
                     <input name="name" type="text" placeholder="Name your Meal">
                 </div>

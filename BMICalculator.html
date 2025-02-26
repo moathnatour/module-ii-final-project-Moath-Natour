@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="dist/styles.css">
+    <link rel="stylesheet" href="dist/calculateStyle.css">
 </head>
 <body>
     <header class="header">
@@ -22,19 +23,21 @@
             <li><a href="updateInfo.html">Update Info</a></li>  
         </ul>
     </nav>
-    <form name="bmi">
-        <div>
+    <main >
+    <form name="bmi" class="form">
+        <div class="row">
             <label for="weight">Insert your weight in Kilograms.</label>
             <input type="text" id="weight" name="weight" placeholder="kg" required>
         </div>
-        <div>
+        <div class="row">
             <label for="height">Insert your height in Centemeters</label>
             <input type="text" id="height" name="height" placeholder="cm" required>
         </div>
         <div id="error-display"></div>
-        <button>Calculate</button>
+        <button class="add-btn">Calculate</button>
         <div id="result-display"></div>
     </form>
+</main>
     <script type="module">
         import {init} from "./dist/BMIView.js"
         init(document.forms.namedItem('bmi'),

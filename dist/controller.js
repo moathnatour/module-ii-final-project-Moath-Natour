@@ -1,4 +1,6 @@
-import { searchFoodItemByName, addMeal, foodDatabase, saveUsersToLocalStorage } from "./model.js";
+import { searchFoodItemByName, addMeal, saveUsersToLocalStorage, getCurrentUserId, users } from "./model.js";
+const currentUserId = getCurrentUserId();
+const currentUser = users.find(u => u.id === currentUserId);
 export function onAddMeal() {
     let foodItemsToAddToMeal = [];
     function onAddFoodItemToMeal(formData) {
@@ -51,14 +53,14 @@ export function onAddMeal() {
 }
 export function getFoodItemsFromDatabase() {
     const foodItemsToShow = [];
-    foodDatabase.forEach(foodItem => {
+    currentUser.foodDatabase.forEach(foodItem => {
         foodItemsToShow.push(foodItem.name);
     });
     return foodItemsToShow;
 }
 export function getFoodItemsByCategory(categories) {
     const foodItemsToShow = [];
-    foodDatabase.forEach(foodItem => {
+    currentUser.foodDatabase.forEach(foodItem => {
         categories.forEach(c => {
             if (foodItem.category === c) {
                 foodItemsToShow.push(foodItem.name);

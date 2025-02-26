@@ -1,0 +1,14 @@
+#foodlist-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+#foodlist-container div {
+  color: white;
+  border: 1px white solid;
+  border-radius: 0.5rem;
+  width: 10rem;
+  padding: 1rem;
+  background-color: #2c4e79;
+  text-align: center;
+}

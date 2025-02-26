@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="dist/styles.css">
+    <link rel="stylesheet" href="dist/calculateStyle.css">
+    <link rel="stylesheet" href="dist/registerStyle.css">
 </head>
 <body>
 </head>
@@ -19,47 +21,51 @@
              
         </ul>
     </nav>
-    <form name="register">
-        <div>
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name" required>
+    <main>
+    <form name="register" class="form stack">
+        <div class="row">
+            
+            <input type="text" id="name" name="name" required placeholder="Name">
         </div>
-        <div>
-            <label for="lastname">Last Name</label>
-            <input type="text" id="lastname" name="lastname" required>
+        <div class="row">
+            
+            <input type="text" id="lastname" name="lastname" required placeholder="Last name">
         </div>
-        <div>
-            <label for="weight">Weight</label>
-            <input type="text" id="weight" name="weight" required placeholder="Kg" >
+        <div class="row">
+            
+            <input type="text" id="weight" name="weight" required placeholder="Weight(Kg)" >
         </div>
-        <div>
-            <label for="height">Height</label>
-            <input type="text" id="height" name="height" required placeholder="Cm">
+        <div class="row">
+            
+            <input type="text" id="height" name="height" required placeholder="Hieght(Cm)">
         </div>
-        <label for="age">Age</label>
-        <input type="text" id="age" name="age" required>
-        <div>
-            <div>
-                <label for="gender">Gender</label>
+        <div class="row">
+        
+        <input type="text" id="age" name="age" required placeholder="Age">
+    </div>
+                <div class="row">
                 <label for="male">Male</label>
                 <input type="radio" name="gender" value="male" id="male" checked>
                 <label for="female">Female</label>
                 <input type="radio" name="gender" value="female" id="female">
             </div>
-            <label for="username">Username:</label>
-            <input type="text" name="username" id="username" required>
+        <div class="row">
+            
+            <input type="text" name="username" id="username" required placeholder="Username">
+            </div>
         </div>
-        <div>
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
+        <div class="row">
+            
+            <input type="password" id="password" name="password" required placeholder="Password">
         </div>
-        <div>
-            <label for="validatepassowrd">Confirm Password:</label>
-            <input type="password" id="validate-password" name="validate-password" required>
+        <div class="row">
+            
+            <input type="password" id="validate-password" name="validate-password" required placeholder="Confirm password">
         </div>
-        <button>Register</button>
+        <button class="add-btn">Register</button>
         <div id="error-display"></div>
         </form>
+    </main>
     
         <script type="module">
             import { init } from "./dist/registerView.js";

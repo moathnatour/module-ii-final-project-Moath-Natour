@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="dist/styles.css">
+    <link rel="stylesheet" href="dist/calculateStyle.css">
 </head>
 <body>
     <header class="header">
@@ -23,17 +24,17 @@
         </ul>
     </nav>
     <main>
-        <form name="info">
+        <form name="info" class="form">
             <div>
 <label for="weight">Please insert your current weight in Kilograms</label>
 <input type="text" id="weight" name="weight"  required>
             </div>
         <div>
-            <button type="button" id="choose-date">Log weight for another day</button>
+            <button type="button" id="choose-date" class="add-btn margin-inline">Log weight for another day</button>
             <input type="date" name="date" id="date-input" class="hidden">
         </div>
         <div id="error-display"></div>
-        <button type="submit">Update</button>
+        <button type="submit" class="add-btn">Update</button>
         </form>
     </main>
     
