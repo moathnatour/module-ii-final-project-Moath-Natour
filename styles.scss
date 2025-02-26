@@ -49,14 +49,15 @@ a{
 
 .header{
     display: flex;
+    justify-content: space-between;
     gap: 1rem;
  background-color: rgb(44,78,121);
 }
 
-.__break-right{
+// .__break-right{
 
-   margin-inline: auto;
-}
+//    margin-inline: auto;
+// }
 
 
 .nav-bar{
