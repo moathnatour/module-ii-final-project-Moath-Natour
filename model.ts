@@ -88,10 +88,10 @@ export function constructMonthlyLog() {
     return new Date(year, month + 1, 0).getDate();
   }
 
-  for (let i = 1; i <= daysInCurrentMonth; i++) {
+  for (let i = 1; i < daysInCurrentMonth; i++) {
     const meals: meal[] = []
     const id = crypto.randomUUID().replaceAll("-", " ").slice(-9);
-    const date = new Date(currentYear, currentMonth, i);
+    const date = new Date(currentYear, currentMonth, i + 1);
     const newDay = {
       date,
       id,

@@ -1,5 +1,5 @@
 import { onAddMeal, getFoodItemsFromDatabase, getFoodItemsByCategory } from "./controller.js"
-import { getUserMonthlyLog, getCaloriesPerDay, getTodaysMeals, getCaloriesByMeal, saveUsersToLocalStorage , getCurrentUserId} from "./model.js";
+import { getUserMonthlyLog, getCaloriesPerDay, getTodaysMeals, getCaloriesByMeal , getCurrentUserId} from "./model.js";
 
 
 

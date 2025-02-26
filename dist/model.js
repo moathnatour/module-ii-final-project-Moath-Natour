@@ -25,10 +25,10 @@ export function constructMonthlyLog() {
     function getDaysInAMonth(year, month) {
         return new Date(year, month + 1, 0).getDate();
     }
-    for (let i = 1; i <= daysInCurrentMonth; i++) {
+    for (let i = 1; i < daysInCurrentMonth; i++) {
         const meals = [];
         const id = crypto.randomUUID().replaceAll("-", " ").slice(-9);
-        const date = new Date(currentYear, currentMonth, i);
+        const date = new Date(currentYear, currentMonth, i + 1);
         const newDay = {
             date,
             id,

@@ -1,4 +1,4 @@
-import {searchFoodItemByName, addMeal , foodItem, foodDatabase, saveUsersToLocalStorage, getCurrentUserId, users} from "./model.js"
+import {searchFoodItemByName, addMeal , foodItem, saveUsersToLocalStorage, getCurrentUserId, users} from "./model.js"
 
 
 const currentUserId = getCurrentUserId();
