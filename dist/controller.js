@@ -1,6 +1,5 @@
 import { searchFoodItemByName, addMeal, foodDatabase, saveUsersToLocalStorage } from "./model.js";
 export function onAddMeal() {
-    saveUsersToLocalStorage();
     let foodItemsToAddToMeal = [];
     function onAddFoodItemToMeal(formData) {
         const foodItemName = formData.get('options');
@@ -26,14 +25,11 @@ export function onAddMeal() {
         foodItemsToAddToMeal = [];
     }
     function onRemoveFoodItemFromMeal(foodItemId) {
-        console.log(foodItemsToAddToMeal);
         foodItemsToAddToMeal = foodItemsToAddToMeal.filter(foodItem => {
             return foodItem.id !== foodItemId;
         });
-        console.log(foodItemsToAddToMeal);
     }
     function onAdd(formData) {
-        console.log(foodItemsToAddToMeal);
         const name = formData.get('name');
         const id = crypto.randomUUID().replaceAll("-", " ").slice(-8);
         const rawDate = formData.get('date');
