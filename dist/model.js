@@ -1,3 +1,6 @@
+export let users = [];
+const usersKey = "users";
+users = getUsersFromLocalStorage();
 export let monthlyLog = [];
 monthlyLog = getMonthlyLogFromLocalStorage();
 export function constructMonthlyLog() {
@@ -381,8 +384,39 @@ function getMonthlyLogFromLocalStorage() {
 export function saveDatabaseToLocalStorage() {
     localStorage.setItem('database', JSON.stringify(foodDatabase));
 }
-function getUpdatedDatabaseFromLocalStorage() {
+export function getUpdatedDatabaseFromLocalStorage() {
     const dataJSON = localStorage.getItem('database');
     const newDatabase = JSON.parse(dataJSON);
     return newDatabase ? newDatabase : foodDatabase;
+}
+export function saveUsersToLocalStorage() {
+    localStorage.setItem(usersKey, JSON.stringify(users));
+}
+export function getUsersFromLocalStorage() {
+    const usersJSON = localStorage.getItem(usersKey);
+
+    let users = JSON.parse(usersJSON);
+    
+    try {
+        if (Array.isArray(users)) {
+            users.forEach((u) => {
+                u.monthlyLog.forEach(day => ({
+                    ...day,
+                    date: new Date(day.date),
+                    meals: day.meals.map((meal) => ({
+                        date: new Date(meal.date)
+                    }))
+                }));
+            });
+            return users
+        }
+        else {
+            return users ? users : [];
+        }
+    } catch (error) {
+        console.log(users, error)
+    }
+
+   
+    return [];
 }

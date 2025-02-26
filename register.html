@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="dist/styles.css">
+</head>
+<body>
+</head>
+<body>
+    <header class="header">
+        <h1>Diet Tracker</h1>
+        <h2 id="greet__display">Welcome</h2>
+        <a href="" class="__break-right">Log Out</a>
+    </header>
+    <nav class="nav-bar">
+        <ul class="nav-list">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="BMICalculator.html">Calculate BMI</a></li>
+            <li><a href="BMRCalculator.html">Calculate BMR</a></li>
+            <li><a href="myFoodsList.html">MyFoods list</a></li>
+            <li><a href="">My Progress</a></li>
+            <li><a href="updateInfo.html">Update Info</a></li>  
+        </ul>
+    </nav>
+    <form name="register">
+        <div>
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        <div>
+            <label for="lastname">Last Name</label>
+            <input type="text" id="lastname" name="lastname" required>
+        </div>
+        <div>
+            <label for="weight">Weight</label>
+            <input type="text" id="weight" name="weight" required placeholder="Kg" >
+        </div>
+        <div>
+            <label for="height">Height</label>
+            <input type="text" id="height" name="hieght" required placeholder="Cm">
+        </div>
+        <label for="age">Age</label>
+        <input type="text" id="age" name="age" required>
+        <div>
+            <div>
+                <label for="gender">Gender</label>
+                <label for="male">Male</label>
+                <input type="radio" name="gender" value="male" id="male" checked>
+                <label for="female">Female</label>
+                <input type="radio" name="gender" value="female" id="female">
+            </div>
+            <label for="username">Username:</label>
+            <input type="text" name="username" id="username" required>
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <div>
+            <label for="validatepassowrd">Confirm Password:</label>
+            <input type="password" id="validate-password" name="validate-password" required>
+        </div>
+        <button>Register</button>
+        <div id="error-display"></div>
+        </form>
+    
+        <script type="module">
+            import { init } from "./dist/registerView.js";
+            init(document.forms.namedItem('register'),
+                   document.getElementById('error-display'),)
+        </script>
+</body>
+</html>

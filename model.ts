@@ -1,170 +1,175 @@
 
 export type user = {
-  name :string,
-  lastName : string,
-  userName : string,
-  password : string,
-  id : string,
-  foodDatabase : foodItem[],
-  monthlyLog : day[],
-  weight? : number,
-  height? : number,
-  age? : number,
-  gender : string,
+  name: string,
+  lastName: string,
+  userName: string,
+  password: string,
+  id: string,
+  foodDatabase: foodItem[],
+  monthlyLog: day[],
+  weight?: number,
+  height?: number,
+  age?: number,
+  gender?: string,
 }
 
+export let users: user[] = [];
+const usersKey = "users";
+users = getUsersFromLocalStorage();
+
+
 export type foodItem = {
-    name: string,
-    category: "Protein" | "Carbohydrate" | "Fat" | "Dairy" | "Vegetable" | "Fruit"
-    caloriesPer100g: number,
-    protein: number,
-    carbs: number,
-    fat: number,
-    weight? : number,
-    id?:string,
+  name: string,
+  category: "Protein" | "Carbohydrate" | "Fat" | "Dairy" | "Vegetable" | "Fruit"
+  caloriesPer100g: number,
+  protein: number,
+  carbs: number,
+  fat: number,
+  weight?: number,
+  id?: string,
 }
 
 
 type meal = {
-    name :string,
-    id : string,
-    content : foodItem[],
-    date: Date
+  name: string,
+  id: string,
+  content: foodItem[],
+  date: Date
 }
 
 
 type day = {
-  date : Date,
-  id : string,
-  meals : meal[],
-  userWeight? : number,
-}
+  date: Date,
+  id: string,
+  meals: meal[],
+  userWeight?: number,
+};
 
-export let monthlyLog :day[]= [];
+export let monthlyLog: day[] = [];
 
 
 monthlyLog = getMonthlyLogFromLocalStorage();
 
 
-export function constructMonthlyLog(){
-  let monthlyLog :day[] = [];
-  const today : Date = new Date();
-const currentYear = today.getFullYear();
-  const currentMonth  = today.getMonth();
+export function constructMonthlyLog() {
+  let monthlyLog: day[] = [];
+  const today: Date = new Date();
+  const currentYear = today.getFullYear();
+  const currentMonth = today.getMonth();
   const daysInCurrentMonth = getDaysInAMonth(currentYear, currentMonth);
 
-  function getDaysInAMonth(year : number, month : number){
+  function getDaysInAMonth(year: number, month: number) {
     return new Date(year, month + 1, 0).getDate();
+  }
+
+  for (let i = 1; i <= daysInCurrentMonth; i++) {
+    const meals: meal[] = []
+    const id = crypto.randomUUID().replaceAll("-", " ").slice(-9);
+    const date = new Date(currentYear, currentMonth, i);
+    const newDay = {
+      date,
+      id,
+      meals,
     }
 
-    for(let i = 1; i <= daysInCurrentMonth; i++){
-      const meals  : meal[]= []
-      const id = crypto.randomUUID().replaceAll("-"," ").slice(-9);
-      const date = new Date(currentYear, currentMonth, i);
-      const newDay = {
-        date,
-        id,
-        meals,
-      }
+    monthlyLog.push(newDay);
+  }
+  return monthlyLog
 
-      monthlyLog.push(newDay);
-    }
-    return monthlyLog
-    
 }
 
-export function getCaloriesPerDay(day : day){
+export function getCaloriesPerDay(day: day) {
   let totalCalories = 0;
-  day.meals.forEach(m =>{
-   const caloriesToAdd = getCaloriesByMeal(m);
-   if(typeof caloriesToAdd !== "string"){
-    totalCalories += caloriesToAdd;
-   }
+  day.meals.forEach(m => {
+    const caloriesToAdd = getCaloriesByMeal(m);
+    if (typeof caloriesToAdd !== "string") {
+      totalCalories += caloriesToAdd;
+    }
   })
   return totalCalories;
 }
 
 
-export function getTodaysMeals(){
-const todayDate = new Date();
-todayDate.setHours(0, 0, 0, 0)
- return monthlyLog.find(d=>(
-  d.date.getDate() === todayDate.getDate()
-)).meals
+export function getTodaysMeals() {
+  const todayDate = new Date();
+  todayDate.setHours(0, 0, 0, 0)
+  return monthlyLog.find(d => (
+    d.date.getDate() === todayDate.getDate()
+  )).meals
 }
 
-export function addMeal(meal : meal){
-const mealDate = meal.date;
-try{
-const day = monthlyLog.find(d => {
- return d.date.getDate() === mealDate.getDate();
-})
-if(day){
-day.meals.push(meal);
-saveMonthlyLogToLocalStorage();
-}
-} catch(error){
-  console.log(error)
-}
-
-}
-
-export function searchFoodItemByName(name : string){
-
-  const foodItem = foodDatabase.find(foodItem =>(foodItem.name.toLocaleLowerCase() === name.toLocaleLowerCase()));
-
-  return {...foodItem};
-}
-
- export function getCaloriesByFoodType(foodItem : foodItem){
-let calories = 0
-   const foodItemFound = foodDatabase.find(f => f.name === foodItem.name);
-
-   if(foodItemFound && foodItem.weight){
-calories = foodItem.caloriesPer100g * foodItem.weight / 100;
-return calories;
-   }
-   else return "";
+export function addMeal(meal: meal) {
+  const mealDate = meal.date;
+  try {
+    const day = monthlyLog.find(d => {
+      return d.date.getDate() === mealDate.getDate();
+    })
+    if (day) {
+      day.meals.push(meal);
+      saveMonthlyLogToLocalStorage();
+    }
+  } catch (error) {
+    console.log(error)
+  }
 
 }
 
-export function getCaloriesByMeal(meal :meal){
-let totalCalories = 0;
-const missingWeights : string[] =[];
-meal.content.forEach(foodItem =>{
+export function searchFoodItemByName(name: string) {
 
-const caloriesToAdd = getCaloriesByFoodType(foodItem);
-if(typeof caloriesToAdd === "string"){
-  
-   missingWeights.push(`the weight of ${foodItem.name} is missing`);  
-} 
-else{
-    totalCalories += caloriesToAdd;
+  const foodItem = foodDatabase.find(foodItem => (foodItem.name.toLocaleLowerCase() === name.toLocaleLowerCase()));
+
+  return { ...foodItem };
+}
+
+export function getCaloriesByFoodType(foodItem: foodItem) {
+  let calories = 0
+  const foodItemFound = foodDatabase.find(f => f.name === foodItem.name);
+
+  if (foodItemFound && foodItem.weight) {
+    calories = foodItem.caloriesPer100g * foodItem.weight / 100;
+    return calories;
+  }
+  else return "";
 
 }
 
-})
+export function getCaloriesByMeal(meal: meal) {
+  let totalCalories = 0;
+  const missingWeights: string[] = [];
+  meal.content.forEach(foodItem => {
 
-if(missingWeights.length > 0){
-for(const missingWeight of missingWeights){
-    console.log(missingWeight)
+    const caloriesToAdd = getCaloriesByFoodType(foodItem);
+    if (typeof caloriesToAdd === "string") {
+
+      missingWeights.push(`the weight of ${foodItem.name} is missing`);
+    }
+    else {
+      totalCalories += caloriesToAdd;
+
+    }
+
+  })
+
+  if (missingWeights.length > 0) {
+    for (const missingWeight of missingWeights) {
+      console.log(missingWeight)
+    }
+    return "calculation failed, weights missing"
+
+  }
+  else {
+    return totalCalories;
+  }
 }
-return "calculation failed, weights missing"
-
-}
-else{
-return totalCalories;
-}
-}
 
 
 
- export function addFoodItem(food : foodItem){
+export function addFoodItem(food: foodItem) {
 
-    foodDatabase.push(food);
+  foodDatabase.push(food);
 }
 
-export let foodDatabase : foodItem[] = [
+export let foodDatabase: foodItem[] = [
   {
     name: "Chicken breast",
     category: "Protein",
@@ -429,52 +434,80 @@ export let foodDatabase : foodItem[] = [
     carbs: 0,
     fat: 100
   }
-  
+
 ];
 foodDatabase = getUpdatedDatabaseFromLocalStorage();
 
-export function saveMonthlyLogToLocalStorage(){
+export function saveMonthlyLogToLocalStorage() {
 
   localStorage.setItem('monthlyLog', JSON.stringify(monthlyLog));
 }
 
-function getMonthlyLogFromLocalStorage(){
+function getMonthlyLogFromLocalStorage() {
 
   const logJSON = localStorage.getItem('monthlyLog')
 
-  
-    let monthlyLog = JSON.parse(logJSON);
-    
 
-    if(Array.isArray(monthlyLog)){
-     return monthlyLog.map(day => ({
-        ...day,
-        date: new Date(day.date), 
-        meals: day.meals.map((meal : meal) => ({
-          ...meal, 
-          date: new Date(meal.date), 
-        })),
-      }));
-      }
+  let monthlyLog = JSON.parse(logJSON);
 
-      else 
-      monthlyLog = constructMonthlyLog();
-    return monthlyLog;
-    }
-    
-export function saveDatabaseToLocalStorage(){
+
+  if (Array.isArray(monthlyLog)) {
+    return monthlyLog.map(day => ({
+      ...day,
+      date: new Date(day.date),
+      meals: day.meals.map((meal: meal) => ({
+        ...meal,
+        date: new Date(meal.date),
+      })),
+    }));
+  }
+
+  else
+    monthlyLog = constructMonthlyLog();
+  return monthlyLog;
+}
+
+export function saveDatabaseToLocalStorage() {
 
   localStorage.setItem('database', JSON.stringify(foodDatabase));
 }
 
 
- function getUpdatedDatabaseFromLocalStorage(){
+export function getUpdatedDatabaseFromLocalStorage() {
 
   const dataJSON = localStorage.getItem('database');
 
   const newDatabase = JSON.parse(dataJSON);
 
-  return  newDatabase ? newDatabase : foodDatabase;
-  
+  return newDatabase ? newDatabase : foodDatabase;
+
 }
 
+export function saveUsersToLocalStorage() {
+
+  localStorage.setItem(usersKey, JSON.stringify(users))
+}
+
+
+export function getUsersFromLocalStorage(): user[] {
+
+  const usersJSON = localStorage.getItem(usersKey);
+
+  let users = JSON.parse(usersJSON);
+
+  users = users.forEach((u: user) => {
+    u.monthlyLog.forEach(day => ({
+      ...day,
+      date: new Date(day.date),
+      meals: day.meals.map((meal) => ({
+        date: new Date(meal.date)
+      }))
+    }))
+  })
+  // if(Array.isArray(users)){
+  // console.log(users);
+  //   return users ? users : [];
+  // }
+  console.log(users);
+  return [];
+}
