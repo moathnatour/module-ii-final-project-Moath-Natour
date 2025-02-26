@@ -48,18 +48,27 @@ export function init(addMealButton, formDisplay, displayCancel, options, monthly
             const currentWeight = day.userWeight;
             let height = 0;
             if (currentWeight) {
-                height = (currentWeight / 150) * 100;
+                height = (currentWeight / 157.98) * 100;
             }
             const newDiv = document.createElement('div');
             newDiv.classList.add('day');
             newDiv.style.height = `${height}%`;
+            newDiv.style.setProperty(`--before-content`, `"${day.date.getDate()}"`);
             if (height > 0) {
                 const weightDisplay = document.createElement('p');
                 weightDisplay.innerText = currentWeight.toString();
                 newDiv.appendChild(weightDisplay);
+                const firstLine = document.createElement('div');
+                firstLine.classList.add('first-chartline');
             }
             monthlyWeightChart.appendChild(newDiv);
         }
+        const firstLine = document.createElement('div');
+        firstLine.classList.add('first-chartline');
+        const secondLine = document.createElement('div');
+        secondLine.classList.add('second-chartline');
+        monthlyWeightChart.appendChild(firstLine);
+        monthlyWeightChart.appendChild(secondLine);
     }
     addMealButton.addEventListener('click', function (e) {
         e.preventDefault();

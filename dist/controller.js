@@ -70,7 +70,3 @@ export function getFoodItemsByCategory(categories) {
     console.log(foodItemsToShow);
     return foodItemsToShow;
 }
-// if(!rawDate){
-//   date = new Date();
-// }
-// else

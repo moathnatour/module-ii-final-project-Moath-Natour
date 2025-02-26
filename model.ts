@@ -1,4 +1,18 @@
 
+export type user = {
+  name :string,
+  lastName : string,
+  userName : string,
+  password : string,
+  id : string,
+  foodDatabase : foodItem[],
+  monthlyLog : day[],
+  weight? : number,
+  height? : number,
+  age? : number,
+  gender : string,
+}
+
 export type foodItem = {
     name: string,
     category: "Protein" | "Carbohydrate" | "Fat" | "Dairy" | "Vegetable" | "Fruit"

@@ -101,8 +101,3 @@ export function getFoodItemsByCategory(categories : string[]){
 }
 
 
-// if(!rawDate){
-    //   date = new Date();
-    // }
-
-    // else
