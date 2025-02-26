@@ -2,7 +2,7 @@ import { onAddFoodItem } from "./foodListController.js";
 import {getItemsInFoodDatabase} from "./foodListModel.js"
 
 export function init(foodItemsDisplaly : HTMLElement, addFoodItemForm : HTMLFormElement,
-    errorDisplay : HTMLElement,
+    errorDisplay : HTMLElement, addFoodItemButton : HTMLButtonElement, formDisplay : HTMLElement,
 ){
 
 function renderFoodItems(){
@@ -17,9 +17,12 @@ foodItemsDisplaly.innerHTML = "";
 
 }
 
-function onUpdate(){
-    renderFoodItems()
-}
+
+addFoodItemButton.addEventListener('click', function(e){
+
+    formDisplay.classList.toggle('hidden');
+})
+
 
 renderFoodItems();
 

@@ -12,3 +12,22 @@
         text-align: center;
     }
 }
+
+#add-foodItem-container{
+   
+    background-color: white;
+    position: fixed;
+    bottom: 65%;
+    left: 50%;
+    transform: translate(-80%, -50%);
+    width: 30%;
+    height: fit-content;
+    border-radius: 0.5rem;
+    
+}
+
+.add-fooditem-form{
+    
+    padding: 1rem;
+    
+}

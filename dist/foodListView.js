@@ -1,6 +1,6 @@
 import { onAddFoodItem } from "./foodListController.js";
 import { getItemsInFoodDatabase } from "./foodListModel.js";
-export function init(foodItemsDisplaly, addFoodItemForm, errorDisplay) {
+export function init(foodItemsDisplaly, addFoodItemForm, errorDisplay, addFoodItemButton, formDisplay) {
     function renderFoodItems() {
         const foodItemsToRender = getItemsInFoodDatabase();
         foodItemsDisplaly.innerHTML = "";
@@ -10,9 +10,9 @@ export function init(foodItemsDisplaly, addFoodItemForm, errorDisplay) {
             foodItemsDisplaly.appendChild(newDiv);
         }
     }
-    function onUpdate() {
-        renderFoodItems();
-    }
+    addFoodItemButton.addEventListener('click', function (e) {
+        formDisplay.classList.toggle('hidden');
+    });
     renderFoodItems();
     addFoodItemForm.addEventListener('submit', function (e) {
         e.preventDefault();

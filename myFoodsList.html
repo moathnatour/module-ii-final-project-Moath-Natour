@@ -10,7 +10,7 @@
 <body>
     <header class="header">
         <h1>Diet Tracker</h1>
-        <h2 id="greet__display">Welcome</h2>
+       
         <a href="index.html" class="__break-right">Log Out</a>
     </header>
     <nav class="nav-bar">
@@ -31,13 +31,13 @@
         </div>
 
 <div id="add-foodItem-container" class="hidden">
-        <form name="new food item">
-            <div>
+        <form name="new food item" class="add-fooditem-form">
+            <div class="row">
             <label for="name">Name</label>
             <input type="text" id="name" name="name" required>
         </div>
         <div>
-            <select name="category" id="category" required>
+            <select name="category" id="category" required >
                 <option value="Protein">Protein</option>
                 <option value="Carbohydrate">Carbohydrate</option>
                 <option value="Vegetable">Vegetable</option>
@@ -74,6 +74,8 @@
         init(document.getElementById('foodlist-container'),
         document.forms.namedItem('new food item'),
         document.getElementById('error-display'),
+        document.getElementById('add-fooditem'),
+        document.getElementById('add-foodItem-container'),
            )
     </script>
 </body>
