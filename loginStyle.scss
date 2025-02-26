@@ -2,3 +2,14 @@ main{
     display: flex;
 justify-content: center;
 }
+
+form{
+    width: 50%;
+    input{
+        height: 2.5rem;
+    }
+}
+
+#error-display{
+    font-size: 1rem;
+}

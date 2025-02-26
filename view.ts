@@ -25,7 +25,7 @@ export function init(addMealButton: HTMLElement, formDisplay: HTMLElement,
 
         for (const day of monthlyLog) {
             const calories = getCaloriesPerDay(day);
-            const height = (calories / 5000) * 100
+            const height = (calories / 3000) * 100
             const newDiv = document.createElement('div');
             newDiv.classList.add('day');
             newDiv.style.height = `${height}%`;
@@ -45,7 +45,7 @@ export function init(addMealButton: HTMLElement, formDisplay: HTMLElement,
             const calories = getCaloriesByMeal(m);
             let height = 0;
             if (typeof calories !== "string") {
-                height = (calories / 5000) * 100;
+                height = (calories / 3000) * 100;
             }
             const newDiv = document.createElement('div');
             newDiv.classList.add('day')
