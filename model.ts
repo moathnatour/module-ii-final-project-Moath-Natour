@@ -45,10 +45,36 @@ type day = {
   userWeight?: number,
 };
 
-export let monthlyLog: day[] = [];
+export function getCurrentUserId() {
+  const userIdJSON = localStorage.getItem('currentUser');
+  const currentUserId = JSON.parse(userIdJSON);
+  return currentUserId;
+}
 
 
-monthlyLog = getMonthlyLogFromLocalStorage();
+
+
+
+
+export function getUserMonthlyLog(currentUserId: string) {
+ 
+  let monthlyLog = users.find(u => { return u.id === currentUserId }).monthlyLog;
+
+  monthlyLog.forEach(day => {
+    
+    day.date = new Date(day.date);
+
+    day.meals.forEach(meal => {
+      meal.date = new Date(meal.date);
+    });
+  });
+
+  return monthlyLog;
+
+}
+
+
+
 
 
 export function constructMonthlyLog() {
@@ -90,27 +116,39 @@ export function getCaloriesPerDay(day: day) {
 }
 
 
-export function getTodaysMeals() {
+export function getTodaysMeals(userId: string) {
   const todayDate = new Date();
   todayDate.setHours(0, 0, 0, 0)
+  const users = getUsersFromLocalStorage();
+
+  
+let  monthlyLog = getUserMonthlyLog(userId);
+  
   return monthlyLog.find(d => (
     d.date.getDate() === todayDate.getDate()
   )).meals
 }
 
+
+
+
+
 export function addMeal(meal: meal) {
   const mealDate = meal.date;
-  try {
+  const currentUserId = getCurrentUserId();
+  let monthlyLog = getUserMonthlyLog(currentUserId);
     const day = monthlyLog.find(d => {
       return d.date.getDate() === mealDate.getDate();
     })
     if (day) {
       day.meals.push(meal);
-      saveMonthlyLogToLocalStorage();
+      console.log(monthlyLog)
+      console.log(users);
+      saveUsersToLocalStorage();
     }
-  } catch (error) {
-    console.log(error)
-  }
+
+    else console.log("hello")
+  
 
 }
 
@@ -438,34 +476,32 @@ export let foodDatabase: foodItem[] = [
 ];
 foodDatabase = getUpdatedDatabaseFromLocalStorage();
 
-export function saveMonthlyLogToLocalStorage() {
+// export function saveMonthlyLogToLocalStorage() {
 
-  localStorage.setItem('monthlyLog', JSON.stringify(monthlyLog));
-}
+//   localStorage.setItem('monthlyLog', JSON.stringify(monthlyLog));
+// }
 
-function getMonthlyLogFromLocalStorage() {
+// function getMonthlyLogFromLocalStorage(userId : string) {
 
-  const logJSON = localStorage.getItem('monthlyLog')
+//   const users = getUsersFromLocalStorage();
 
+//   const currentUserLog = users.find(u => u.id === userId).monthlyLog;
 
-  let monthlyLog = JSON.parse(logJSON);
+//   if (Array.isArray(currentUserLog)) {
+//     return currentUserLog.map(day => ({
+//       ...day,
+//       date: new Date(day.date),
+//       meals: day.meals.map((meal: meal) => ({
+//         ...meal,
+//         date: new Date(meal.date),
+//       })),
+//     }));
+//   }
 
-
-  if (Array.isArray(monthlyLog)) {
-    return monthlyLog.map(day => ({
-      ...day,
-      date: new Date(day.date),
-      meals: day.meals.map((meal: meal) => ({
-        ...meal,
-        date: new Date(meal.date),
-      })),
-    }));
-  }
-
-  else
-    monthlyLog = constructMonthlyLog();
-  return monthlyLog;
-}
+//   else
+//     monthlyLog = constructMonthlyLog();
+//   return monthlyLog;
+// }
 
 export function saveDatabaseToLocalStorage() {
 
@@ -495,19 +531,11 @@ export function getUsersFromLocalStorage(): user[] {
 
   let users = JSON.parse(usersJSON);
 
-  users = users.forEach((u: user) => {
-    u.monthlyLog.forEach(day => ({
-      ...day,
-      date: new Date(day.date),
-      meals: day.meals.map((meal) => ({
-        date: new Date(meal.date)
-      }))
-    }))
-  })
-  // if(Array.isArray(users)){
-  // console.log(users);
-  //   return users ? users : [];
-  // }
-  console.log(users);
-  return [];
+
+
+  if (!users) {
+    return [];
+  }
+  else return users
+
 }

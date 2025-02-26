@@ -9,7 +9,7 @@ export function init(loginForm, errorDisplay) {
         }
         else {
             loginForm.reset();
-            window.location.assign(`index.html#${result.id}`);
+            window.location.assign(`home.html#${result.id}`);
         }
     });
 }

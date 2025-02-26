@@ -1,20 +1,28 @@
 import { onAddMeal, getFoodItemsFromDatabase, getFoodItemsByCategory } from "./controller.js"
-import { monthlyLog, getCaloriesPerDay, getTodaysMeals, getCaloriesByMeal } from "./model.js"
+import { getUserMonthlyLog, getCaloriesPerDay, getTodaysMeals, getCaloriesByMeal, saveUsersToLocalStorage , getCurrentUserId} from "./model.js";
+
+
+
 export function init(addMealButton: HTMLElement, formDisplay: HTMLElement,
     displayCancel: HTMLElement, options: HTMLElement, monthlyCaloriesChart: HTMLElement,
-    caloricIntakeChart: HTMLElement, monthlyWeightChart: HTMLElement
+    caloricIntakeChart: HTMLElement, monthlyWeightChart: HTMLElement,
 ) {
     const { onAddFoodItemToMeal, onRemoveFoodItemFromMeal, onAdd, getFoodItemName,
         getFoodItemWeight, resetFoodItemsToAddToMealList
     } = onAddMeal();
-    console.log(monthlyLog);
+    const currentUserId = getCurrentUserId();
+    const monthlyLog =   getUserMonthlyLog(currentUserId);
+
     renderCalorieTrackerChart();
     renderTodayMealschart();
     renderWeightTrackerChart();
 
-
+    
     function renderCalorieTrackerChart() {
         monthlyCaloriesChart.innerHTML = "";
+       
+      console.log(monthlyLog)
+
         for (const day of monthlyLog) {
             const calories = getCaloriesPerDay(day);
             const height = (calories / 5000) * 100
@@ -32,7 +40,7 @@ export function init(addMealButton: HTMLElement, formDisplay: HTMLElement,
 
     function renderTodayMealschart() {
         caloricIntakeChart.innerHTML = "";
-        const mealsToRender = getTodaysMeals();
+        const mealsToRender = getTodaysMeals(currentUserId);
         mealsToRender.forEach(m => {
             const calories = getCaloriesByMeal(m);
             let height = 0;
@@ -74,11 +82,11 @@ export function init(addMealButton: HTMLElement, formDisplay: HTMLElement,
             monthlyWeightChart.appendChild(newDiv);
         }
         const firstLine = document.createElement('div');
-                firstLine.classList.add('first-chartline');
-                const secondLine = document.createElement('div');
-                secondLine.classList.add('second-chartline');
-                monthlyWeightChart.appendChild(firstLine);
-                monthlyWeightChart.appendChild(secondLine)
+        firstLine.classList.add('first-chartline');
+        const secondLine = document.createElement('div');
+        secondLine.classList.add('second-chartline');
+        monthlyWeightChart.appendChild(firstLine);
+        monthlyWeightChart.appendChild(secondLine)
 
     }
 
@@ -206,10 +214,11 @@ export function init(addMealButton: HTMLElement, formDisplay: HTMLElement,
         e.stopPropagation();
         const formData = new FormData(mealForm)
         onAdd(formData);
+
         foodItemDisplay.innerHTML = "";
         renderCalorieTrackerChart();
         renderTodayMealschart();
-        console.log(monthlyLog);
+
 
     })
 

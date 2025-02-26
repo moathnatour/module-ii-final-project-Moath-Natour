@@ -1,13 +1,15 @@
 import { onAddMeal, getFoodItemsFromDatabase, getFoodItemsByCategory } from "./controller.js";
-import { monthlyLog, getCaloriesPerDay, getTodaysMeals, getCaloriesByMeal } from "./model.js";
+import { getUserMonthlyLog, getCaloriesPerDay, getTodaysMeals, getCaloriesByMeal, getCurrentUserId } from "./model.js";
 export function init(addMealButton, formDisplay, displayCancel, options, monthlyCaloriesChart, caloricIntakeChart, monthlyWeightChart) {
     const { onAddFoodItemToMeal, onRemoveFoodItemFromMeal, onAdd, getFoodItemName, getFoodItemWeight, resetFoodItemsToAddToMealList } = onAddMeal();
-    console.log(monthlyLog);
+    const currentUserId = getCurrentUserId();
+    const monthlyLog = getUserMonthlyLog(currentUserId);
     renderCalorieTrackerChart();
     renderTodayMealschart();
     renderWeightTrackerChart();
     function renderCalorieTrackerChart() {
         monthlyCaloriesChart.innerHTML = "";
+        console.log(monthlyLog);
         for (const day of monthlyLog) {
             const calories = getCaloriesPerDay(day);
             const height = (calories / 5000) * 100;
@@ -24,7 +26,7 @@ export function init(addMealButton, formDisplay, displayCancel, options, monthly
     }
     function renderTodayMealschart() {
         caloricIntakeChart.innerHTML = "";
-        const mealsToRender = getTodaysMeals();
+        const mealsToRender = getTodaysMeals(currentUserId);
         mealsToRender.forEach(m => {
             const calories = getCaloriesByMeal(m);
             let height = 0;
@@ -169,7 +171,6 @@ export function init(addMealButton, formDisplay, displayCancel, options, monthly
         foodItemDisplay.innerHTML = "";
         renderCalorieTrackerChart();
         renderTodayMealschart();
-        console.log(monthlyLog);
     });
     const dateButton = document.getElementById('date-button');
     const logMealDate = document.getElementById('log-meal-date');

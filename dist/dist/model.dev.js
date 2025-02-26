@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.getUserMonthlyLog = getUserMonthlyLog;
 exports.constructMonthlyLog = constructMonthlyLog;
 exports.getCaloriesPerDay = getCaloriesPerDay;
 exports.getTodaysMeals = getTodaysMeals;
@@ -11,12 +12,13 @@ exports.searchFoodItemByName = searchFoodItemByName;
 exports.getCaloriesByFoodType = getCaloriesByFoodType;
 exports.getCaloriesByMeal = getCaloriesByMeal;
 exports.addFoodItem = addFoodItem;
-exports.saveMonthlyLogToLocalStorage = saveMonthlyLogToLocalStorage;
 exports.saveDatabaseToLocalStorage = saveDatabaseToLocalStorage;
 exports.getUpdatedDatabaseFromLocalStorage = getUpdatedDatabaseFromLocalStorage;
 exports.saveUsersToLocalStorage = saveUsersToLocalStorage;
 exports.getUsersFromLocalStorage = getUsersFromLocalStorage;
 exports.foodDatabase = exports.monthlyLog = exports.users = void 0;
+
+var _view = require("./view.js");
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -28,9 +30,38 @@ var users = [];
 exports.users = users;
 var usersKey = "users";
 exports.users = users = getUsersFromLocalStorage();
+
+function getCurrentUserId() {
+  userIdJSON = localStorage.getItem('currentUser');
+  currentUserId = JSON.parse(userIdJSON);
+  return currentUserId;
+}
+
 var monthlyLog = [];
 exports.monthlyLog = monthlyLog;
-exports.monthlyLog = monthlyLog = getMonthlyLogFromLocalStorage();
+
+function getUserMonthlyLog(currentUserId) {
+  // const users = getUsersFromLocalStorage();
+  try {
+    var _monthlyLog = users.find(function (u) {
+      return u.id === currentUserId;
+    }).monthlyLog;
+    _monthlyLog = _monthlyLog.map(function (day) {
+      return _objectSpread({}, day, {
+        date: new Date(day.date),
+        meals: day.meals.map(function (meal) {
+          return _objectSpread({}, meal, {
+            date: new Date(meal.date)
+          });
+        })
+      });
+    });
+    return _monthlyLog;
+  } catch (error) {
+    console.log(error);
+    return constructMonthlyLog();
+  }
+}
 
 function constructMonthlyLog() {
   var monthlyLog = [];
@@ -70,15 +101,21 @@ function getCaloriesPerDay(day) {
   return totalCalories;
 }
 
-function getTodaysMeals() {
+function getTodaysMeals(userId) {
   var todayDate = new Date();
   todayDate.setHours(0, 0, 0, 0);
+  var users = getUsersFromLocalStorage();
+  console.log(users, userId, " inisde function");
+  var currentUser = users.find(function (u) {
+    return userId === u.id;
+  });
+  var monthlyLog = currentUser.monthlyLog;
   return monthlyLog.find(function (d) {
     return d.date.getDate() === todayDate.getDate();
   }).meals;
 }
 
-function addMeal(meal) {
+function addMeal(meal, currentUserId) {
   var mealDate = meal.date;
 
   try {
@@ -88,7 +125,7 @@ function addMeal(meal) {
 
     if (day) {
       day.meals.push(meal);
-      saveMonthlyLogToLocalStorage();
+      saveUsersToLocalStorage();
     }
   } catch (error) {
     console.log(error);
@@ -395,31 +432,26 @@ var foodDatabase = [{
   fat: 100
 }];
 exports.foodDatabase = foodDatabase;
-exports.foodDatabase = foodDatabase = getUpdatedDatabaseFromLocalStorage();
-
-function saveMonthlyLogToLocalStorage() {
-  localStorage.setItem('monthlyLog', JSON.stringify(monthlyLog));
-}
-
-function getMonthlyLogFromLocalStorage() {
-  var logJSON = localStorage.getItem('monthlyLog');
-  var monthlyLog = JSON.parse(logJSON);
-
-  if (Array.isArray(monthlyLog)) {
-    return monthlyLog.map(function (day) {
-      return _objectSpread({}, day, {
-        date: new Date(day.date),
-        meals: day.meals.map(function (meal) {
-          return _objectSpread({}, meal, {
-            date: new Date(meal.date)
-          });
-        })
-      });
-    });
-  } else monthlyLog = constructMonthlyLog();
-
-  return monthlyLog;
-}
+exports.foodDatabase = foodDatabase = getUpdatedDatabaseFromLocalStorage(); // export function saveMonthlyLogToLocalStorage() {
+//   localStorage.setItem('monthlyLog', JSON.stringify(monthlyLog));
+// }
+// function getMonthlyLogFromLocalStorage(userId : string) {
+//   const users = getUsersFromLocalStorage();
+//   const currentUserLog = users.find(u => u.id === userId).monthlyLog;
+//   if (Array.isArray(currentUserLog)) {
+//     return currentUserLog.map(day => ({
+//       ...day,
+//       date: new Date(day.date),
+//       meals: day.meals.map((meal: meal) => ({
+//         ...meal,
+//         date: new Date(meal.date),
+//       })),
+//     }));
+//   }
+//   else
+//     monthlyLog = constructMonthlyLog();
+//   return monthlyLog;
+// }
 
 function saveDatabaseToLocalStorage() {
   localStorage.setItem('database', JSON.stringify(foodDatabase));
@@ -439,27 +471,7 @@ function getUsersFromLocalStorage() {
   var usersJSON = localStorage.getItem(usersKey);
   var users = JSON.parse(usersJSON);
 
-  try {
-    if (Array.isArray(users)) {
-      users.forEach(function (u) {
-        u.monthlyLog.forEach(function (day) {
-          return _objectSpread({}, day, {
-            date: new Date(day.date),
-            meals: day.meals.map(function (meal) {
-              return {
-                date: new Date(meal.date)
-              };
-            })
-          });
-        });
-      });
-      return users;
-    } else {
-      return users ? users : [];
-    }
-  } catch (error) {
-    console.log(users, error);
-  }
-
-  return [];
+  if (!users) {
+    return [];
+  } else return users;
 }

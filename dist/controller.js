@@ -1,5 +1,6 @@
-import { searchFoodItemByName, addMeal, foodDatabase } from "./model.js";
+import { searchFoodItemByName, addMeal, foodDatabase, saveUsersToLocalStorage } from "./model.js";
 export function onAddMeal() {
+    saveUsersToLocalStorage();
     let foodItemsToAddToMeal = [];
     function onAddFoodItemToMeal(formData) {
         const foodItemName = formData.get('options');
@@ -46,6 +47,7 @@ export function onAddMeal() {
             date,
             content,
         });
+        saveUsersToLocalStorage();
         foodItemsToAddToMeal = [];
     }
     return { onAddFoodItemToMeal, onRemoveFoodItemFromMeal, onAdd,

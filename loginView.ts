@@ -11,7 +11,7 @@ export function init (loginForm : HTMLFormElement, errorDisplay : HTMLElement){
         }
         else{
             loginForm.reset();
-            window.location.assign(`index.html#${result.id}`);
+            window.location.assign(`home.html#${result.id}`);
         }
     })
 }
